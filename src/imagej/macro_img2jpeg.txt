@@ -1,0 +1,13 @@
+dir1 = getDirectory("Choose Source Directory "); 
+dir2 = getDirectory("Choose Destination Directory "); 
+list = getFileList(dir1); 
+setBatchMode(true); 
+
+for (i=0; i<list.length; i++) { 
+        showProgress(i+1, list.length); 
+        if(endsWith(list[i], ".IMG")) { 
+                run("Raw...", "open="+dir1+list[i]+" image=[16-bit Unsigned] width=2048 height=2048 offset=0 number=1 gap=0"); 
+                saveAs("jpeg", dir2+list[i]); 
+                close(); 
+        } 
+} 
