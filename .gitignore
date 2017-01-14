@@ -27,3 +27,11 @@
 *.exe
 *.out
 *.app
+
+# Images
+*.png
+*.tiff
+*.jpeg
+*.bmp
+*.img
+
