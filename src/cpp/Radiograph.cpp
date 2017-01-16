@@ -57,7 +57,7 @@ int main()
   bool loaded = xray.LoadImage("../../data/img/");
   if (!loaded)
   {
-    cout << "Failure loading image!";
+    std::cout << "Failure loading image!";
     return -1;
   }
   xray.CircleNodule();
