@@ -1,4 +1,6 @@
-# Image Data
+# JSRT Radiographs
+
+## Introduction
 
 `radiology-cv/data/img` is a placeholder directory for holding transformed contents of the [Japanese Society of Radiological Technology (JSRT) Standard Digital Image Database](http://www.jsrt.or.jp/jsrt-db/eng.php).
 
