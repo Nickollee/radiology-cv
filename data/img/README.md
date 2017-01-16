@@ -6,4 +6,4 @@ The database contains 247 chest radiographs. The majority of these x-ray images 
 
 ## IMPORTANT
 
-These radiographs are intentionally not included in this repository to protect the privacy of patients. However, the images can be obtained directly from [JSRT]() under the condition that they be used solely for research purposes 
+These radiographs are intentionally not included in this repository to protect the privacy of patients. However, the images can be obtained directly from [JSRT]() under the condition that they be used solely for research purposes. 
