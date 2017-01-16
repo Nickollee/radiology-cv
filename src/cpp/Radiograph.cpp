@@ -31,7 +31,7 @@ void Radiograph::DisplayImage()
   cv::Mat image = getImage();
   if (!image.empty())
   {
-    std::string windowname = Radiograph.getFilename()
+    std::string windowname = getFilename()
     cv::namedWindow(windowname, WINDOW_AUTOSIZE ); // Create a window for display.
     cv::imshow(windowname, image );                // Show our image inside it.
     cv::waitKey(0); // Wait for a keystroke in the window
