@@ -54,10 +54,10 @@ void Radiograph::CircleNodule()
 int main()
 {
   Radiograph xray("JPCLN010.jpg", 5, 25, 60, false, 647, 594, true, true);
-  bool loaded = xray.LoadImage("../../data/img/");
+  bool loaded = xray.LoadImage("../data/img/");
   if (!loaded)
   {
-    std::cout << "Failure loading image!";
+    std::cout << "Failure loading image!\n";
     return -1;
   }
   xray.CircleNodule();
