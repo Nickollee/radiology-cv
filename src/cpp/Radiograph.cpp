@@ -18,7 +18,7 @@ bool Radiograph::LoadImage(std::string directory)
   std::string filename = Radiograph.getFilename();
   std::string fullName = directory + filename;
 
-  _image = imread( fullName, IMREAD_COLOR ); // Read the file
+  _image = cv::imread( fullName, cv::IMREAD_COLOR ); // Read the file
   if(_image.empty() )                      // Check for invalid input
   {
       return false;
@@ -29,12 +29,12 @@ bool Radiograph::LoadImage(std::string directory)
 void Radiograph::DisplayImage()
 {
   cv::Mat image = Radiograph.getImage();
-  if (!image == null && !image.empty())
+  if (image != NULL && !image.empty())
   {
     std::string windowname = Radiograph.getFilename()
-    namedWindow(windowname, WINDOW_AUTOSIZE ); // Create a window for display.
-    imshow(windowname, image );                // Show our image inside it.
-    waitKey(0); // Wait for a keystroke in the window
+    cv::namedWindow(windowname, WINDOW_AUTOSIZE ); // Create a window for display.
+    cv::imshow(windowname, image );                // Show our image inside it.
+    cv::waitKey(0); // Wait for a keystroke in the window
   }
 }
 
@@ -43,15 +43,10 @@ void Radiograph::CircleNodule()
   cv::Mat image = Radiograph.getImage();
   int x = Radiograph.getX();
   int y = Radiograph.getY();
-  if (!image == null && !image.empty())
+  if (image != NULL && !image.empty())
   {
-   circle( image,
-      Point(x, y),
-      2048/32,
-      Scalar( 0, 0, 255 ),
-      1,
-      LINE_8 );
-      DisplayImage();
+    cv::circle(image, cv::Point(x, y), 2048/32, cv::Scalar(0, 0, 255), 1, cv::LINE_8);
+    DisplayImage();
   }   
 }
 
