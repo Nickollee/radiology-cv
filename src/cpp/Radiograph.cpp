@@ -1,4 +1,5 @@
 #include "Radiograph.hpp"
+#include <iostream>
 
 Radiograph::Radiograph(std::string filename, int subtlety, int size, int age, bool isMale, int x, int y, bool isMalignant, bool hasNodule)
 {
@@ -53,7 +54,12 @@ void Radiograph::CircleNodule()
 int main()
 {
   Radiograph xray("JPCLN010.jpg", 5, 25, 60, false, 647, 594, true, true);
-  xray.LoadImage("../../data/img/");
+  bool loaded = xray.LoadImage("../../data/img/");
+  if (!loaded)
+  {
+    cout << "Failure loading image!";
+    return -1;
+  }
   xray.CircleNodule();
   return 0;
 }
