@@ -35,3 +35,10 @@
 *.bmp
 *.img
 *.jpg
+
+# Sensitive Data Files
+*CLNDAT_EN.txt
+*CNNDAT_EN.txt
+*.xls
+*.xlsx
+*.csv
