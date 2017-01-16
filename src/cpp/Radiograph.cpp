@@ -2,7 +2,7 @@
 
 Radiograph::Radiograph(std::string filename, int subtlety, int size, int age, bool isMale, int x, int y, bool isMalignant, bool hasNodule)
 {
-  _filename = filename
+  _filename = filename;
   _subtlety = subtlety;
   _size = size;
   _age = age;

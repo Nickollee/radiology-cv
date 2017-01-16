@@ -30,7 +30,7 @@ class Radiograph
         bool isMalignant() {return _isMalignant;}
         bool hasNodule() {return _hasNodule;}
         cv::Mat getImage() {return _image;}
-        bool LoadImage();
+        bool LoadImage(std::string directory);
         void DisplayImage();
         void CircleNodule();
 };
