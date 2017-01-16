@@ -15,7 +15,7 @@ Radiograph::Radiograph(std::string filename, int subtlety, int size, int age, bo
 
 bool Radiograph::LoadImage(std::string directory)
 {
-  std::string filename = Radiograph.getFilename();
+  std::string filename = getFilename();
   std::string fullName = directory + filename;
 
   _image = cv::imread( fullName, cv::IMREAD_COLOR ); // Read the file
@@ -28,8 +28,8 @@ bool Radiograph::LoadImage(std::string directory)
 
 void Radiograph::DisplayImage()
 {
-  cv::Mat image = Radiograph.getImage();
-  if (image != NULL && !image.empty())
+  cv::Mat image = getImage();
+  if (!image.empty())
   {
     std::string windowname = Radiograph.getFilename()
     cv::namedWindow(windowname, WINDOW_AUTOSIZE ); // Create a window for display.
@@ -40,10 +40,10 @@ void Radiograph::DisplayImage()
 
 void Radiograph::CircleNodule()
 {
-  cv::Mat image = Radiograph.getImage();
-  int x = Radiograph.getX();
-  int y = Radiograph.getY();
-  if (image != NULL && !image.empty())
+  cv::Mat image = getImage();
+  int x = getX();
+  int y = getY();
+  if (!image.empty())
   {
     cv::circle(image, cv::Point(x, y), 2048/32, cv::Scalar(0, 0, 255), 1, cv::LINE_8);
     DisplayImage();
