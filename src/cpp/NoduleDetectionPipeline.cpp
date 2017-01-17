@@ -8,12 +8,12 @@ NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 void NoduleDetectionPipeline::ReadInMetadata()
 {
     std::ifstream ifs;
-    ifs.open (_metadataFileName, std::ifstream::in);
+    ifs.open (_metadataFileName.c_str(), std::ifstream::in);
     std::string value;
     std::list<std::string> values;
-    while ( fileage.good() )
+    while ( ifs.good() )
     {
-        std::getline ( fileage, value, '\n' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
+        std::getline ( ifs, value, '\n' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
         std::cout << "Value: " << value << "\n";
         if (value.find(',') != std::string::npos) {
             split_line(value, ",", values);
