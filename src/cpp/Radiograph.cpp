@@ -47,10 +47,10 @@ void Radiograph::BoxNodule()
   if (!image.empty())
   {
     double height = _size * PIXELS_PER_MM;
-    int cornerX = round(_x - (height/2));
-    int cornerY = round(_y - (height/2));
-    int bCornerX = round(_x + (height/2));
-    int bCornerY = round(_y + (height/2));
+    int cornerX = round(_x - (height/1.5));
+    int cornerY = round(_y - (height/1.5));
+    int bCornerX = round(_x + (height/1.5));
+    int bCornerY = round(_y + (height/1.5));
     int h = round(height);
 
     cv::rectangle(image, cv::Point(cornerX, cornerY), cv::Point(bCornerX, bCornerY), cv::Scalar(0, 0, 255), 1, cv::LINE_8, 0);
@@ -61,11 +61,12 @@ void Radiograph::BoxNodule()
 cv::Mat Radiograph::ExtractNodule()
 {
   double height = _size * PIXELS_PER_MM;
-  int cornerX = round(_x - (height/2));
-  int cornerY = round(_y - (height/2));
-  int h = round(height);
+  int cornerX = round(_x - (height/1.5));
+  int cornerY = round(_y - (height/1.5));
+  int bCornerX = round(_x + (height/1.5));
+  int bCornerY = round(_y + (height/1.5));
 
-  cv::Rect noduleRegion(cornerX, cornerY, h, h);
+  cv::Rect noduleRegion(cv::Point(cornerX, cornerY), cv::Point(bCornerX, bCornerY));
   return _image(noduleRegion);
 }
 

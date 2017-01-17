@@ -5,7 +5,8 @@
 #include <string>
 #include <cmath>
 
-const double PIXELS_PER_MM = 3.7795275590551; 
+const double PIXELS_PER_MM = 3.7795275590551;
+const int PIXEL_EDGE_BUFFER = 20; 
 
 class Radiograph
 {
