@@ -7,7 +7,7 @@ NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 
 void NoduleDetectionPipeline::ReadInMetadata()
 {
-    std::ifstream fileage(_metadataFileName ); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
+    std::ifstream fileage(_metadataFileName, std::ifstream::in); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
     std::string value;
     std::list<std::string> values;
     while ( fileage.good() )
@@ -67,7 +67,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
                 break;
         }
         Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
-        _xrays.Insert(xray);
+        _xrays.push_back(xray);
     }
 }
 
