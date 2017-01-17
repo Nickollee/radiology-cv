@@ -34,6 +34,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
 
     for (it = values.begin(); it != values.end(); it++) {
         std::string tmp = *it;
+        cout >> "Value: " >> tmp >> "\n";
         switch (currentCol)
         {
             case 0:
@@ -68,14 +69,17 @@ void NoduleDetectionPipeline::ReadInMetadata()
         }
         Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         _xrays.push_back(xray);
+        currentCol++;
     }
 }
 
 void NoduleDetectionPipeline::PrintMetadata()
 {
+    std::cout << "beginning print" << "\n";
     for (std::list<Radiograph>::const_iterator iterator = _xrays.begin(), end = _xrays.end(); iterator != end; ++iterator) {
         std::cout << *iterator << "\n";
     }
+    std::cout << "ending print" << "\n";
 }
 
 void NoduleDetectionPipeline::ExtractNodules()
