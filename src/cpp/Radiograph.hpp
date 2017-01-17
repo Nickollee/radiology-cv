@@ -35,6 +35,6 @@ class Radiograph
         cv::Mat getImage() {return _image;}
         bool LoadImage(std::string directory);
         void DisplayImage();
-        void CircleNodule();
+        void BoxNodule();
         cv::Mat ExtractNodule();
 };

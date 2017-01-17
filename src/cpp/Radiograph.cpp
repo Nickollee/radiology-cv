@@ -39,16 +39,21 @@ void Radiograph::DisplayImage()
   }
 }
 
-void Radiograph::CircleNodule()
+void Radiograph::BoxNodule()
 {
   cv::Mat image = getImage();
   int x = getX();
   int y = getY();
   if (!image.empty())
   {
-    int height = std::round(_size * PIXELS_PER_MM);
-    cv::circle(image, cv::Point(x, y), height/2, cv::Scalar(0, 0, 255), 1, cv::LINE_8);
+    double height = _size * PIXELS_PER_MM;
+    int cornerX = std::round(_x - (height/2));
+    int cornerY = std::round(_y - (_size * (height/2));
+    int h = std::round(height);
+
+    cv::Rect(image, cv::Point(cornerX, cornerY), h, h, cv::Scalar(0, 0, 255), 1, cv::LINE_8);
     DisplayImage();
+  }
   }   
 }
 
