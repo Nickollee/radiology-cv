@@ -1,3 +1,4 @@
+#include "Radiograph.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,8 +8,8 @@
 class NoduleDetectionPipeline
 {
     private:
-        std::string _metadataFileName
-        std::list<Radiograph> _xrays
+        std::string _metadataFileName;
+        std::list<Radiograph> _xrays;
         void split_line(std::string& line, std::string delim, std::list<std::string>& values)
         {
             size_t pos = 0;

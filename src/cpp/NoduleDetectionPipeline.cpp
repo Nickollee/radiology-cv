@@ -7,7 +7,7 @@ NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 
 void NoduleDetectionPipeline::ReadInMetadata()
 {
-    ifstream file (_metadataFileName ); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
+    std::ifstream std::file (_metadataFileName ); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
     std::string value;
     std::list<std::string> values;
     while ( file.good() )
@@ -33,7 +33,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
     bool hasNodule;
 
     for (it = values.begin(); it != values.end(); it++) {
-        string tmp = *it;
+        std::string tmp = *it;
         switch (currentCol)
         {
             case 0:
