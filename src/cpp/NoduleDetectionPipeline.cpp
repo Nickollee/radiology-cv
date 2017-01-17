@@ -41,35 +41,44 @@ void NoduleDetectionPipeline::ReadInMetadata()
         {
             case 0:
                 fileName = tmp;
+                currentCol++;
                 break;
             case 1:
                 subtlety = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                currentCol++;
                 break;
             case 2:
                 size = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                currentCol++;
                 break;
             case 3:
                 age = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                currentCol++;
                 break;
             case 4:
                 isMale = tmp.compare("TRUE");
+                currentCol++;
                 break;
             case 5:
                 x = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                currentCol++;
                 break;
             case 6:
                 y = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                currentCol++;
                 break;
             case 7:
                 isMalignant = tmp.compare("TRUE");
+                currentCol++;
                 break;
             case 8:
                 hasNodule = tmp.compare("TRUE");
+                currentCol++;
                 break;
             default:
                 break;
         }
-        currentCol++;
+        
     }
 
     Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
