@@ -7,7 +7,7 @@ NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 
 void NoduleDetectionPipeline::ReadInMetadata()
 {
-    std::ifstream fileage(_metadataFileName, ios_base::openmode mode = std::ios_base::in); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
+    std::ifstream fileage(_metadataFileName, std::ios_base::openmode mode = std::ios_base::in); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
     std::string value;
     std::list<std::string> values;
     while ( fileage.good() )
