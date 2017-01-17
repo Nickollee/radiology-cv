@@ -24,10 +24,11 @@ void NoduleDetectionPipeline::ReadInMetadata()
         //loop through the ,
         while ((pos=line.find_first_of(","))!=std::string::npos)
         {
-        //extract the component sans ,
-        tmp.push_back(line.substr(0,pos-1));
-        //erase the val including ,
-        line.erase(0,pos);
+            //extract the component sans ,
+            tmp.push_back(line.substr(0,pos-1));
+            std::cout << "tmp: " << line.substr(0,pos-1) << "\n";
+            //erase the val including ,
+            line.erase(0,pos);
         }
         result.push_back(tmp);
     }
