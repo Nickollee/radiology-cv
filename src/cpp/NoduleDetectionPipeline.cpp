@@ -11,6 +11,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
     ifs.open (_metadataFileName.c_str(), std::ifstream::in);
     std::string value;
     std::list<std::string> values;
+    std::getline ( ifs, value, '\n' );
     while ( ifs.good() )
     {
         std::getline ( ifs, value, '\n' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
@@ -68,10 +69,11 @@ void NoduleDetectionPipeline::ReadInMetadata()
             default:
                 break;
         }
-        Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
-        _xrays.push_back(xray);
         currentCol++;
     }
+
+    Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
+    _xrays.push_back(xray);
 }
 
 void NoduleDetectionPipeline::PrintMetadata()
