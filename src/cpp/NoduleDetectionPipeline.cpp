@@ -13,14 +13,14 @@ void NoduleDetectionPipeline::ReadInMetadata()
     std::list<std::string> values;
     std::getline ( ifs, value, '\n' );
 
-    vector< vector<string> > result;
-    while (!file.eof())
+    std::vector< std::vector<std::string> > result;
+    while (!ifs.eof())
     {
         //go through every line
-        string line;
-        vector<string> tmp;
+        std::string line;
+        std::vector<std::string> tmp;
         size_t pos=string::npos;
-        getline(file,line);
+        getline(ifs,line);
         //loop through the ,
         while ((pos=line.find_first_of(","))!=string::npos)
         {
