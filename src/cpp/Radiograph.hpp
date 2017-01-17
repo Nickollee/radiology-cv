@@ -40,4 +40,4 @@ class Radiograph
         cv::Mat ExtractNodule();
 };
 
-std::ostream& operator<<(std::ostream &strm, const Radiograph &a) {return strm << "Radiograph(" << a.getFilename() << ", " << a.getSubtlety() << ", " << a.getSize() << ", " << a.getAge() << ", " << a._isMale() << ", " << a.getX() << ", " << a.getY() << ", " << a.isMalignant() << ", " << a.hasNodule() << ")";}
+std::ostream& operator<<(std::ostream &strm, const Radiograph &a) {return strm << "Radiograph(" << a.getFilename() << ", " << a.getSubtlety() << ", " << a.getSize() << ", " << a.getAge() << ", " << a.isMale() << ", " << a.getX() << ", " << a.getY() << ", " << a.isMalignant() << ", " << a.hasNodule() << ")";}
