@@ -29,4 +29,4 @@ class NoduleDetectionPipeline
         void ReadInMetadata();
         void ExtractNodules();
         void PrintMetadata();
-}
+};

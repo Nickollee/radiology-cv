@@ -7,12 +7,12 @@ NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 
 void NoduleDetectionPipeline::ReadInMetadata()
 {
-    std::ifstream std::file (_metadataFileName ); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
+    std::ifstream fileage(_metadataFileName ); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
     std::string value;
     std::list<std::string> values;
-    while ( file.good() )
+    while ( fileage.good() )
     {
-        std::getline ( file, value, ',' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
+        std::getline ( fileage, value, ',' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
         if (value.find('\n') != std::string::npos) {
             split_line(value, "\n", values);
         } else {
@@ -40,22 +40,22 @@ void NoduleDetectionPipeline::ReadInMetadata()
                 fileName = tmp;
                 break;
             case 1:
-                subtlety = (int)(std::strtol(tmp.c_str(), NULL));
+                subtlety = (int)(std::strtol(tmp.c_str(), NULL, 10));
                 break;
             case 2:
-                size = (int)(std::strtol(tmp.c_str(), NULL));
+                size = (int)(std::strtol(tmp.c_str(), NULL, 10));
                 break;
             case 3:
-                age = (int)(std::strtol(tmp.c_str(), NULL));
+                age = (int)(std::strtol(tmp.c_str(), NULL, 10));
                 break;
             case 4:
                 isMale = tmp.compare("TRUE");
                 break;
             case 5:
-                x = (int)(std::strtol(tmp.c_str(), NULL));
+                x = (int)(std::strtol(tmp.c_str(), NULL, 10));
                 break;
             case 6:
-                y = (int)(std::strtol(tmp.c_str(), NULL));
+                y = (int)(std::strtol(tmp.c_str(), NULL, 10));
                 break;
             case 7:
                 isMalignant = tmp.compare("TRUE");
