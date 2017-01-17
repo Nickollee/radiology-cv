@@ -28,7 +28,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
             tmp.push_back(line.substr(0,pos-1));
             std::cout << "tmp: " << line.substr(0,pos-1) << "\n";
             //erase the val including ,
-            line.erase(0,pos);
+            line = line.erase(0,pos);
         }
         result.push_back(tmp);
     }
