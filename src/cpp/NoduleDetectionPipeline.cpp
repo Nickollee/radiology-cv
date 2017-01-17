@@ -12,77 +12,87 @@ void NoduleDetectionPipeline::ReadInMetadata()
     std::string value;
     std::list<std::string> values;
     std::getline ( ifs, value, '\n' );
-    while ( ifs.good() )
+
+    vector< vector<string> > result;
+    while (!file.eof())
     {
-        std::getline ( ifs, value, '\n' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
-        if (value.find(',') != std::string::npos) {
-            split_line(value, ",", values);
-        } else {
-            values.push_back(value);
+        //go through every line
+        string line;
+        vector<string> tmp;
+        size_t pos=string::npos;
+        getline(file,line);
+        //loop through the ,
+        while ((pos=line.find_first_of(","))!=string::npos)
+        {
+        //extract the component sans ,
+        tmp.push_back(line.substr(0,pos-1));
+        //erase the val including ,
+        line.erase(0,pos);
         }
+        result.push_back(tmp);
     }
 
-    std::list<std::string>::const_iterator it = values.begin();
-    int currentCol = 0;
-    std::string fileName;
-    int subtlety;
-    int size;
-    int age;
-    bool isMale;
-    int x;
-    int y;
-    bool isMalignant;
-    bool hasNodule;
+    // while ( ifs.good() )
+    // {
+    //     std::getline ( ifs, value, '\n' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
+    //     if (value.find(',') != std::string::npos) {
+    //         split_line(value, ",", values);
+    //     } else {
+    //         values.push_back(value);
+    //     }
+    // }
 
-    for (it = values.begin(); it != values.end(); it++) {
-        std::string tmp = *it;
-        switch (currentCol)
+    // std::list<std::string>::const_iterator it = values.begin();
+
+    for (int i = 0; i < result.size(); i++)
+    {
+        std::string fileName;
+        int subtlety;
+        int size;
+        int age;
+        bool isMale;
+        int x;
+        int y;
+        bool isMalignant;
+        bool hasNodule;
+
+        switch (i)
         {
             case 0:
                 fileName = tmp;
-                currentCol++;
                 break;
             case 1:
                 subtlety = (int)(std::strtol(tmp.c_str(), NULL, 10));
-                currentCol++;
                 break;
             case 2:
                 size = (int)(std::strtol(tmp.c_str(), NULL, 10));
-                currentCol++;
                 break;
             case 3:
                 age = (int)(std::strtol(tmp.c_str(), NULL, 10));
-                currentCol++;
                 break;
             case 4:
                 isMale = tmp.compare("TRUE");
-                currentCol++;
                 break;
             case 5:
                 x = (int)(std::strtol(tmp.c_str(), NULL, 10));
-                currentCol++;
                 break;
             case 6:
                 y = (int)(std::strtol(tmp.c_str(), NULL, 10));
-                currentCol++;
                 break;
             case 7:
                 isMalignant = tmp.compare("TRUE");
-                currentCol++;
                 break;
             case 8:
                 hasNodule = tmp.compare("TRUE");
-                currentCol++;
                 break;
             default:
                 break;
         }
-        
-    }
 
-    Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
-    std::cout << xray << "\n";
-    _xrays.push_back(xray);
+        Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
+        std::cout << xray << "\n";
+        _xrays.push_back(xray);
+    }
 }
 
 void NoduleDetectionPipeline::PrintMetadata()
