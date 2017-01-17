@@ -19,10 +19,10 @@ void NoduleDetectionPipeline::ReadInMetadata()
         //go through every line
         std::string line;
         std::vector<std::string> tmp;
-        size_t pos=string::npos;
+        size_t pos=std::string::npos;
         getline(ifs,line);
         //loop through the ,
-        while ((pos=line.find_first_of(","))!=string::npos)
+        while ((pos=line.find_first_of(","))!=std::string::npos)
         {
         //extract the component sans ,
         tmp.push_back(line.substr(0,pos-1));
@@ -59,31 +59,31 @@ void NoduleDetectionPipeline::ReadInMetadata()
         switch (i)
         {
             case 0:
-                fileName = tmp;
+                fileName = result[i];
                 break;
             case 1:
-                subtlety = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                subtlety = (int)(std::strtol(result[i].c_str(), NULL, 10));
                 break;
             case 2:
-                size = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                size = (int)(std::strtol(result[i].c_str(), NULL, 10));
                 break;
             case 3:
-                age = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                age = (int)(std::strtol(result[i].c_str(), NULL, 10));
                 break;
             case 4:
-                isMale = tmp.compare("TRUE");
+                isMale = result[i].compare("TRUE");
                 break;
             case 5:
-                x = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                x = (int)(std::strtol(result[i].c_str(), NULL, 10));
                 break;
             case 6:
-                y = (int)(std::strtol(tmp.c_str(), NULL, 10));
+                y = (int)(std::strtol(result[i].c_str(), NULL, 10));
                 break;
             case 7:
-                isMalignant = tmp.compare("TRUE");
+                isMalignant = result[i].compare("TRUE");
                 break;
             case 8:
-                hasNodule = tmp.compare("TRUE");
+                hasNodule = result[i].compare("TRUE");
                 break;
             default:
                 break;
