@@ -69,16 +69,3 @@ cv::Mat Radiograph::ExtractNodule()
   cv::Rect noduleRegion(cv::Point(cornerX, cornerY), cv::Point(bCornerX, bCornerY));
   return _image(noduleRegion);
 }
-
-int main()
-{
-  Radiograph xray("JPCLN010.jpg", 5, 25, 60, false, 647, 594, true, true);
-  bool loaded = xray.LoadImage("../data/img/");
-  if (!loaded)
-  {
-    std::cout << "Failure loading image!\n";
-    return -1;
-  }
-  xray.BoxNodule();
-  return 0;
-}

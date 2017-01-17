@@ -1,15 +1,13 @@
 #include "NoduleDetectionPipeline.hpp"
 
-NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileDir, std::string metadataFileName, std::string extractionDir)
+NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 {
-    _metadataFileDir = metadataFileDir;
     _metadataFileName = metadataFileName;
-    _extractionDir = extractionDir;
 }
 
 void NoduleDetectionPipeline::ReadInMetadata()
 {
-    ifstream file ( _metadataFileDir + _metadataFileName ); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
+    ifstream file (_metadataFileName ); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
     std::string value;
     std::list<std::string> values;
     while ( file.good() )
@@ -83,4 +81,11 @@ void NoduleDetectionPipeline::PrintMetadata()
 void NoduleDetectionPipeline::ExtractNodules()
 {
     return;
+}
+
+int main()
+{
+  NoduleDetectionPipeline ndp("../../data/clinical/xray_metadata.csv");
+  ndp.ReadInMetadata();
+  ndp.PrintMetadata();
 }

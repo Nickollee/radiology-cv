@@ -7,12 +7,7 @@
 class NoduleDetectionPipeline
 {
     private:
-        std::string _metadataFileDir
         std::string _metadataFileName
-        std::string _extractionDir
-        std::string _trainingDir
-        std::string _testDir
-        std::string _recordPrefix
         std::list<Radiograph> _xrays
         void split_line(std::string& line, std::string delim, std::list<std::string>& values)
         {
@@ -28,16 +23,8 @@ class NoduleDetectionPipeline
             }
         }
     public:
-        NoduleDetectionPipeline(std::string metadataFileDir, std::string metadataFileName, std::string extractionDir);
-        std::string getMetadataFileDirectory(){return _metadataFileDir;}
+        NoduleDetectionPipeline(std::string metadataFileName);
         std::string getMetadataFileName(){return _metadataFileName;}
-        std::string getExtractionDirectory(){return _extractionDir;}
-        std::string getTrainingDirectory(){return _trainingDir;}
-        std::string getTestDir(){return _testDir;}
-        std::string getRecordPrefix(){return _recordPrefix;}
-        void setTrainingDirectory(std::string trainingDir){_trainingDir = trainingDir;}
-        void setTestDirectory(std::string testDir){_testDir = testDir;}
-        void setRecordPrefix(std::string recordPrefix) {_recordPrefix = recordPrefix;}
         void ReadInMetadata();
         void ExtractNodules();
         void PrintMetadata();
