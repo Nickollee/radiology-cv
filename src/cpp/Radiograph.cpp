@@ -55,8 +55,7 @@ void Radiograph::BoxNodule()
 
     cv::Rect(image, cv::Point(cornerX, cornerY), cv::Point(bCornerX, bCornerY), cv::Scalar(0, 0, 255), 1, cv::LINE_8);
     DisplayImage();
-  }
-  }   
+  } 
 }
 
 cv::Mat Radiograph::ExtractNodule()
