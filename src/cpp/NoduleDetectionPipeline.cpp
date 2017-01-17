@@ -59,6 +59,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
             int y;
             bool isMalignant;
             bool hasNodule;
+            std::cout << "Hello: " << resultJ[i] << "\n";
 
             switch (i)
             {
