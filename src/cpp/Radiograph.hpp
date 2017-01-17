@@ -31,8 +31,8 @@ class Radiograph
         bool isMale() const {return _isMale;}
         int getX() const {return _x;}
         int getY() const {return _y;}
-        bool const isMalignant() {return _isMalignant;}
-        bool const hasNodule() {return _hasNodule;}
+        bool isMalignant() const {return _isMalignant;}
+        bool hasNodule() const {return _hasNodule;}
         cv::Mat getImage() {return _image;}
         bool LoadImage(std::string directory);
         void DisplayImage();
