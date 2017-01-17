@@ -3,6 +3,9 @@
 #include <opencv2/highgui.hpp>
 
 #include <string>
+#include <cmath>
+
+const double PIXELS_PER_MM = 3.7795275590551; 
 
 class Radiograph
 {
@@ -33,4 +36,5 @@ class Radiograph
         bool LoadImage(std::string directory);
         void DisplayImage();
         void CircleNodule();
+        cv::Mat ExtractNodule();
 };

@@ -46,9 +46,21 @@ void Radiograph::CircleNodule()
   int y = getY();
   if (!image.empty())
   {
-    cv::circle(image, cv::Point(x, y), 2048/32, cv::Scalar(0, 0, 255), 1, cv::LINE_8);
+    int height = std::round(_size * PIXELS_PER_MM);
+    cv::circle(image, cv::Point(x, y), height/2, cv::Scalar(0, 0, 255), 1, cv::LINE_8);
     DisplayImage();
   }   
+}
+
+cv::Mat Radiograph::ExtractNodule()
+{
+  double height = _size * PIXELS_PER_MM;
+  int cornerX = std::round(_x - (height/2));
+  int cornerY = std::round(_y - (_size * (height/2));
+  int h = std::round(height);
+
+  cv::Rect noduleRegion(cornerX, cornerY, h, h);
+  return _image(noduleRegion);
 }
 
 int main()
