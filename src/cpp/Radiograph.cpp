@@ -53,7 +53,7 @@ void Radiograph::BoxNodule()
     int bCornerY = round(_y + (height/2));
     int h = round(height);
 
-    cv::Rect(image, cv::Point(cornerX, cornerY), cv::Point(bCornerX, bCornerY), cv::Scalar(0, 0, 255), 1, cv::LINE_8);
+    cv::Rect(image, cv::Point(cornerX, cornerY), cv::Point(bCornerX, bCornerY), cv::Scalar(0, 0, 255), 1, cv::LINE_8, 0);
     DisplayImage();
   } 
 }
