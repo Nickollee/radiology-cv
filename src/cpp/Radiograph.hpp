@@ -24,15 +24,15 @@ class Radiograph
 
     public:
         Radiograph(std::string filename, int subtlety, int size, int age, bool isMale, int x, int y, bool isMalignant, bool hasNodule);
-        std::string getFilename() {return _filename;}
-        int getSubtlety() {return _subtlety;}
-        int getSize() {return _size;}
-        int getAge() {return _age;}
-        bool isMale() {return _isMale;}
-        int getX() {return _x;}
-        int getY() {return _y;}
-        bool isMalignant() {return _isMalignant;}
-        bool hasNodule() {return _hasNodule;}
+        std::string getFilename() const {return _filename;}
+        int getSubtlety() const {return _subtlety;}
+        int getSize() const {return _size;}
+        int getAge() const {return _age;}
+        bool isMale() const {return _isMale;}
+        int getX() const {return _x;}
+        int getY() const {return _y;}
+        bool const isMalignant() {return _isMalignant;}
+        bool const hasNodule() {return _hasNodule;}
         cv::Mat getImage() {return _image;}
         bool LoadImage(std::string directory);
         void DisplayImage();
