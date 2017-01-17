@@ -90,7 +90,7 @@ void NoduleDetectionPipeline::ExtractNodules()
 
 int main()
 {
-  NoduleDetectionPipeline ndp("../../data/clinical/xray_metadata.csv");
+  NoduleDetectionPipeline ndp("../data/clinical/xray_metadata.csv");
   ndp.ReadInMetadata();
   ndp.PrintMetadata();
 }
