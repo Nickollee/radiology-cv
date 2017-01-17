@@ -78,6 +78,6 @@ int main()
     std::cout << "Failure loading image!\n";
     return -1;
   }
-  xray.CircleNodule();
+  xray.BoxNodule();
   return 0;
 }
