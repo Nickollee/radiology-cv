@@ -12,7 +12,8 @@ void NoduleDetectionPipeline::ReadInMetadata()
     std::list<std::string> values;
     while ( fileage.good() )
     {
-        std::getline ( fileage, value, ',' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
+        std::getline ( fileage, value, '\n' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
+        std::cout << "Value: " << value << "\n";
         if (value.find(',') != std::string::npos) {
             split_line(value, ",", values);
         } else {
@@ -34,7 +35,6 @@ void NoduleDetectionPipeline::ReadInMetadata()
 
     for (it = values.begin(); it != values.end(); it++) {
         std::string tmp = *it;
-        std::cout << "Value: " << tmp << "\n";
         switch (currentCol)
         {
             case 0:
