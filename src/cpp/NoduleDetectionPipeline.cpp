@@ -15,7 +15,6 @@ void NoduleDetectionPipeline::ReadInMetadata()
     while ( ifs.good() )
     {
         std::getline ( ifs, value, '\n' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
-        std::cout << "Value: " << value << "\n";
         if (value.find(',') != std::string::npos) {
             split_line(value, ",", values);
         } else {
@@ -82,16 +81,15 @@ void NoduleDetectionPipeline::ReadInMetadata()
     }
 
     Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
+    std::cout << xray << "\n";
     _xrays.push_back(xray);
 }
 
 void NoduleDetectionPipeline::PrintMetadata()
 {
-    std::cout << "beginning print" << "\n";
     for (std::list<Radiograph>::const_iterator iterator = _xrays.begin(), end = _xrays.end(); iterator != end; ++iterator) {
         std::cout << *iterator << "\n";
     }
-    std::cout << "ending print" << "\n";
 }
 
 void NoduleDetectionPipeline::ExtractNodules()
