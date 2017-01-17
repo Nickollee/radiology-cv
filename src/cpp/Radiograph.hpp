@@ -35,6 +35,7 @@ class Radiograph
         bool hasNodule() {return _hasNodule;}
         cv::Mat getImage() {return _image;}
         bool LoadImage(std::string directory);
+        std::ostream& operator<<(std::ostream &strm, const Radiograph &a) {return strm << "Radiograph(" << a._filename << ", " << a._subtlety << ", " << a._size << ", " << a._age << ", " << a._isMale << ", " << a._x << ", " << a._y << ", " << a._isMalignant << ", " << a._hasNodule << ")";}
         void DisplayImage();
         void BoxNodule();
         cv::Mat ExtractNodule();
