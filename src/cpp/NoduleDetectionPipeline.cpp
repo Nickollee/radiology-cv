@@ -44,54 +44,59 @@ void NoduleDetectionPipeline::ReadInMetadata()
 
     // std::list<std::string>::const_iterator it = values.begin();
 
-    for (int i = 0; i < result.size(); i++)
+    for (int j = 0; j < result.size(); j++)
     {
-        std::string fileName;
-        int subtlety;
-        int size;
-        int age;
-        bool isMale;
-        int x;
-        int y;
-        bool isMalignant;
-        bool hasNodule;
-
-        switch (i)
+        std::vector<std::string> resultJ;
+        resultJ = result[j];
+        for (int i = 0; i < resultJ.size(); i++)
         {
-            case 0:
-                fileName = result[i];
-                break;
-            case 1:
-                subtlety = (int)(std::strtol(result[i].c_str(), NULL, 10));
-                break;
-            case 2:
-                size = (int)(std::strtol(result[i].c_str(), NULL, 10));
-                break;
-            case 3:
-                age = (int)(std::strtol(result[i].c_str(), NULL, 10));
-                break;
-            case 4:
-                isMale = result[i].compare("TRUE");
-                break;
-            case 5:
-                x = (int)(std::strtol(result[i].c_str(), NULL, 10));
-                break;
-            case 6:
-                y = (int)(std::strtol(result[i].c_str(), NULL, 10));
-                break;
-            case 7:
-                isMalignant = result[i].compare("TRUE");
-                break;
-            case 8:
-                hasNodule = result[i].compare("TRUE");
-                break;
-            default:
-                break;
-        }
+            std::string fileName;
+            int subtlety;
+            int size;
+            int age;
+            bool isMale;
+            int x;
+            int y;
+            bool isMalignant;
+            bool hasNodule;
 
-        Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
-        std::cout << xray << "\n";
-        _xrays.push_back(xray);
+            switch (i)
+            {
+                case 0:
+                    fileName = resultJ[i];
+                    break;
+                case 1:
+                    subtlety = (int)(std::strtol(resultJ[i].c_str(), NULL, 10));
+                    break;
+                case 2:
+                    size = (int)(std::strtol(resultJ[i].c_str(), NULL, 10));
+                    break;
+                case 3:
+                    age = (int)(std::strtol(resultJ[i].c_str(), NULL, 10));
+                    break;
+                case 4:
+                    isMale = resultJ[i].compare("TRUE");
+                    break;
+                case 5:
+                    x = (int)(std::strtol(resultJ[i].c_str(), NULL, 10));
+                    break;
+                case 6:
+                    y = (int)(std::strtol(resultJ[i].c_str(), NULL, 10));
+                    break;
+                case 7:
+                    isMalignant = resultJ[i].compare("TRUE");
+                    break;
+                case 8:
+                    hasNodule = resultJ[i].compare("TRUE");
+                    break;
+                default:
+                    break;
+            }
+
+            Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
+            std::cout << xray << "\n";
+            _xrays.push_back(xray);
+        }
     }
 }
 
