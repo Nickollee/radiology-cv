@@ -5,5 +5,5 @@ project(radiology-cv)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-add_executable(Radiograph Radiograph.cpp)
-target_link_libraries(Radiograph ${OpenCV_LIBS})
+add_executable(NoduleDetectionPipeline NoduleDetectionPipeline.cpp)
+target_link_libraries(NoduleDetectionPipeline ${OpenCV_LIBS})
