@@ -34,7 +34,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
 
     for (it = values.begin(); it != values.end(); it++) {
         std::string tmp = *it;
-        std::cout >> "Value: " >> tmp >> "\n";
+        std::cout << "Value: " << tmp << "\n";
         switch (currentCol)
         {
             case 0:
