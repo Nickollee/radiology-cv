@@ -22,7 +22,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
         size_t pos=std::string::npos;
         getline(ifs,line);
         //loop through the ,
-        while ((pos=line.find_first_of(","))!=std::string::npos)
+        while ((pos=line.find_first_of(","))!=std::string::npos && (pos=line.find_first_of("\n"))!=std::string::npos)
         {
             //extract the component sans ,
             tmp.push_back(line.substr(0,pos-1));
