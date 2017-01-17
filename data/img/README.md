@@ -12,4 +12,4 @@ The original JSTR data is stored as a raw image file. Developers may download an
 
 ## IMPORTANT
 
-These radiographs are intentionally not included in this repository to protect the privacy of patients. However, the images can be obtained directly from [JSRT](http://www.jsrt.or.jp/jsrt-db/eng.php) under the condition that they be used solely for research purposes. 
+These radiographs are intentionally not included in this repository to protect the privacy of patients. However, the images can be obtained directly from [JSRT](http://www.jsrt.or.jp/data/english/) under the condition that they be used solely for research purposes. 
