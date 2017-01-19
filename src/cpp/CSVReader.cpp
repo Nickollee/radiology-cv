@@ -20,6 +20,12 @@ std::vector < std::vector < std::string > > CSVReader::Read(char recordDelimeter
     std::vector <std::vector <std::string> > data;
     std::ifstream infile(_filepath.c_str(), std::ios_base::in);
 
+    if (_containsHeader)
+    {
+        std::string header;
+        std::getline( infile, header);
+    }
+
     while (infile)
     {
         std::string s;

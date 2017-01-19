@@ -44,14 +44,12 @@ void NoduleDetectionPipeline::ReadInMetadata()
         bool hasNodule = record[8] == "TRUE";
 
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
-        std::cout << xray << "\n";
         _xrays.push_back(xray);        
     }
 }
 
 void NoduleDetectionPipeline::PrintMetadata()
 {
-    std::cout << "#################################";
     for (int i = 0; i < _xrays.size(); i++)
     {
         std::cout << _xrays[i] << "\n";
