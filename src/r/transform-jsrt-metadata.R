@@ -6,8 +6,6 @@ ln_list <- read.table("../../data/clinical/CLNDAT_EN.txt", sep="\t")
 ln_list = ln_list[, -c(9, 10, 11, 12)]
 names(ln_list) <- c("filename", "subtlety", "size_mm", "age", "sex", "x_coord", "y_coord", "malignancy")
 ln <- as.data.frame(ln_list)
-ln$subtlety <- factor(ln$subtlety)
-ln$sex <- factor(ln$sex)
 ln$malignant <- ln$malignancy == "malignant"
 ln$nodule <- TRUE
 ln <- ln[, !(names(ln) %in% c("malignancy"))]
@@ -19,16 +17,18 @@ nn <- as.data.frame(str_split_fixed(nn_raw$data, "( )+", 4))
 names(nn) <- c("filename", "age", "sex", "nodule")
 
 nn$sex = factor(nn$sex)
-nn$subtlety <- as.factor(0)
+nn$subtlety <- 0
 nn$size_mm <- 0
-nn$x_coord <- -1
-nn$y_coord <- -1
+nn$x_coord <- 0
+nn$y_coord <- 0
 nn$malignant <- FALSE
-nn$nodule <- nn$nodule != "non-nodule"
+nn$nodule <- FALSE
 rm(nn_raw)
 
 xray_metadata <- rbind(ln, nn)
 xray_metadata[ xray_metadata == "?" ] = NA
+xray_metadata$subtlety <- factor(xray_metadata$subtlety)
+xray_metadata$sex <- factor(xray_metadata$sex)
 
 xray_metadata$age <- round(as.numeric(as.character(xray_metadata$age)), digits = 0)
 xray_metadata[is.na(xray_metadata[,4]), 4] <- round(mean(xray_metadata[,4], na.rm = TRUE), digits = 0)
