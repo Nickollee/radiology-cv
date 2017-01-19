@@ -27,7 +27,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
         std::cout << "5: " << record[5] << "\n";
         std::cout << "6: " << record[6] << "\n";
         std::cout << "7: " << record[7] << "\n";
-        std::cout << "8: " << record[8] << "hello\n";
+        std::cout << "8: " << record[8] << "\n";
         std::cout << "######################\n"; 
         std::string filename = record[0];
 
@@ -53,7 +53,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
 
         bool isMale = record[4] == "TRUE";
         bool isMalignant = record[7] == "TRUE";
-        bool hasNodule = record[8] == "TRUE";
+        bool hasNodule = record[8] == "TRUE\n";
 
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         _xrays.push_back(xray);        
