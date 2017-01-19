@@ -18,7 +18,7 @@ CSVReader::CSVReader(std::string filepath)
 std::vector < std::vector < std::string > > CSVReader::Read(char recordDelimeter)
 {
     std::vector <std::vector <std::string> > data;
-    std::ifstream infile(_filepath);
+    std::ifstream infile(_filepath.c_str(), std::ios_base::in);
 
     while (infile)
     {
@@ -39,7 +39,7 @@ std::vector < std::vector < std::string > > CSVReader::Read(char recordDelimeter
     }
     if (!infile.eof())
     {
-        std::cerr << "Fooey!\n";
+        return data;
     }
     return data;
 }
