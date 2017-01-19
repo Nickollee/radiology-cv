@@ -1,6 +1,5 @@
 #include "CSVReader.hpp"
 
-#include <vector>
 #include <sstream>
 #include <fstream>
 
@@ -16,7 +15,7 @@ CSVReader::CSVReader(std::string filepath)
     _containsHeader = false;
 }
 
-std::vector<std::vector<std::string>> CSVReader::Read(char recordDelimeter)
+std::vector < std::vector < std::string > > CSVReader::Read(char recordDelimeter)
 {
     std::vector <std::vector <std::string> > data;
     std::ifstream infile(_filepath);

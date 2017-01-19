@@ -12,7 +12,7 @@ NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 void NoduleDetectionPipeline::ReadInMetadata()
 {
     CSVReader reader(_metadataFileName, true);
-    std::vector<std::vector<std::string>> records = reader.Read(',');
+    std::vector < std::vector < std::string > > records = reader.Read(',');
 
     for (int i = 0; i < records.size(); i++)
     {
