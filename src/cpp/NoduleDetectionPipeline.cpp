@@ -16,6 +16,8 @@ void NoduleDetectionPipeline::ReadInMetadata()
 
     for (int i = 0; i < records.size(); i++)
     {
+        std::vector<std::string> record = records[i];
+
         std::cout << "######################\n";
         std::cout << "0: " << record[0] << "\n";
         std::cout << "1: " << record[1] << "\n";
@@ -27,7 +29,6 @@ void NoduleDetectionPipeline::ReadInMetadata()
         std::cout << "7: " << record[7] << "\n";
         std::cout << "8: " << record[8] << "\n";
         std::cout << "######################\n"; 
-        std::vector<std::string> record = records[i];
         std::string filename = record[0];
 
         std::istringstream is1(record[1]);
