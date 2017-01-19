@@ -16,7 +16,6 @@ names(nn_raw) <- c("data")
 nn <- as.data.frame(str_split_fixed(nn_raw$data, "( )+", 4))
 names(nn) <- c("filename", "age", "sex", "nodule")
 
-nn$sex = factor(nn$sex)
 nn$subtlety <- 0
 nn$size_mm <- 0
 nn$x_coord <- 0
@@ -27,8 +26,10 @@ rm(nn_raw)
 
 xray_metadata <- rbind(ln, nn)
 xray_metadata[ xray_metadata == "?" ] = NA
-xray_metadata$subtlety <- factor(xray_metadata$subtlety)
-xray_metadata$sex <- factor(xray_metadata$sex)
+
+xray_metadata$sex <- xray_metadata$sex == 'male'
+xray_metadata$filename <- as.character(xray_metadata$filename)
+
 
 xray_metadata$age <- round(as.numeric(as.character(xray_metadata$age)), digits = 0)
 xray_metadata[is.na(xray_metadata[,4]), 4] <- round(mean(xray_metadata[,4], na.rm = TRUE), digits = 0)

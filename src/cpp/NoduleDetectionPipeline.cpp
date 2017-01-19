@@ -51,7 +51,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
         int y;
         is6 >> y;
 
-        bool isMale = record[4] == "male";
+        bool isMale = record[4] == "TRUE";
         bool isMalignant = record[7] == "TRUE";
         bool hasNodule = record[8] == "TRUE";
 
