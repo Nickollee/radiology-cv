@@ -53,7 +53,11 @@ void NoduleDetectionPipeline::ReadInMetadata()
 
         bool isMale = record[4] == "TRUE";
         bool isMalignant = record[7] == "TRUE";
-        bool hasNodule = record[8] == "TRUE\n";
+        bool hasNodule = false;
+        if (record[8].find("TRUE") != std::string::npos)
+        {
+            hasNodule = true;
+        }
 
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         _xrays.push_back(xray);        
