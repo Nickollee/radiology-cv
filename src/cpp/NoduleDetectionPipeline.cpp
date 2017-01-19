@@ -40,9 +40,9 @@ void NoduleDetectionPipeline::ReadInMetadata()
         is6 >> y;
 
         bool isMale = record[4] == "TRUE";
-        bool isMalignant = std::stoi(record[7]);
-        bool hasNodule = std::stoi(record[8]);
-        
+        bool isMalignant = record[7] == "TRUE";
+        bool hasNodule = record[8] == "TRUE";
+
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         std::cout << xray << "\n";
         _xrays.push_back(xray);        
