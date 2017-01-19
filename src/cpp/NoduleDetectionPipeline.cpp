@@ -27,7 +27,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
         std::cout << "5: " << record[5] << "\n";
         std::cout << "6: " << record[6] << "\n";
         std::cout << "7: " << record[7] << "\n";
-        std::cout << "8: " << record[8] << ":\n";
+        std::cout << "8: " << record[8] << "hello\n";
         std::cout << "######################\n"; 
         std::string filename = record[0];
 
