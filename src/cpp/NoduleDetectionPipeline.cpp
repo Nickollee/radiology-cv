@@ -16,6 +16,17 @@ void NoduleDetectionPipeline::ReadInMetadata()
 
     for (int i = 0; i < records.size(); i++)
     {
+        std::cout << "######################\n";
+        std::cout << "0: " << record[0] << "\n";
+        std::cout << "1: " << record[1] << "\n";
+        std::cout << "2: " << record[2] << "\n";
+        std::cout << "3: " << record[3] << "\n";
+        std::cout << "4: " << record[4] << "\n";
+        std::cout << "5: " << record[5] << "\n";
+        std::cout << "6: " << record[6] << "\n";
+        std::cout << "7: " << record[7] << "\n";
+        std::cout << "8: " << record[8] << "\n";
+        std::cout << "######################\n"; 
         std::vector<std::string> record = records[i];
         std::string filename = record[0];
 
@@ -39,7 +50,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
         int y;
         is6 >> y;
 
-        bool isMale = record[4] == "TRUE";
+        bool isMale = record[4] == "male";
         bool isMalignant = record[7] == "TRUE";
         bool hasNodule = record[8] == "TRUE";
 
