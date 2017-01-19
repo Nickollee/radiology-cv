@@ -51,8 +51,10 @@ void NoduleDetectionPipeline::ReadInMetadata()
 
 void NoduleDetectionPipeline::PrintMetadata()
 {
-    for (std::vector<Radiograph>::const_iterator iterator = _xrays.begin(), end = _xrays.end(); iterator != end; ++iterator) {
-        std::cout << *iterator << "\n";
+    std::cout << "#################################";
+    for (int i = 0; i < _xrays.size(); i++)
+    {
+        std::cout << _xrays[i] << "\n";
     }
 }
 
