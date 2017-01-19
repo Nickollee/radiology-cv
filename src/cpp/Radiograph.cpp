@@ -12,6 +12,7 @@ Radiograph::Radiograph(std::string filename, int subtlety, int size, int age, bo
   _y = y;
   _isMalignant = isMalignant;
   _hasNodule = hasNodule;
+  _height = round(_size * PIXELS_PER_MM);
 }
 
 bool Radiograph::LoadImage(std::string directory)

@@ -9,7 +9,7 @@ NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
     _metadataFileName = metadataFileName;
 }
 
-void NoduleDetectionPipeline::ReadInMetadata()
+void NoduleDetectionPipeline::readInMetadata()
 {
     CSVReader reader(_metadataFileName, true);
     std::vector < std::vector < std::string > > records = reader.Read(',');
@@ -18,17 +18,6 @@ void NoduleDetectionPipeline::ReadInMetadata()
     {
         std::vector<std::string> record = records[i];
 
-        std::cout << "######################\n";
-        std::cout << "0: " << record[0] << "\n";
-        std::cout << "1: " << record[1] << "\n";
-        std::cout << "2: " << record[2] << "\n";
-        std::cout << "3: " << record[3] << "\n";
-        std::cout << "4: " << record[4] << "\n";
-        std::cout << "5: " << record[5] << "\n";
-        std::cout << "6: " << record[6] << "\n";
-        std::cout << "7: " << record[7] << "\n";
-        std::cout << "8: " << record[8] << "\n";
-        std::cout << "######################\n"; 
         std::string filename = record[0];
 
         std::istringstream is1(record[1]);
@@ -64,17 +53,99 @@ void NoduleDetectionPipeline::ReadInMetadata()
     }
 }
 
+void NoduleDetectionPipeline::splitTrainTest()
+{
+    if (trainSplit <= 0 || trainSplit >= 1 || testSplit <= 0 || testSplit >= 1)
+    {
+        return;
+    }
+    srand (time(NULL));
+    int numTrain = std::trunc(_xrays.size() * trainSplit);
+    int numTest = _xrays._size() - numTrain;
+
+    std::unordered_set<int> selected;
+    while (_xraysTrain.size() < numTrain)
+    {
+        int recordNum;
+        recordNum = rand() % x_rays.size();
+        std::unordered_set<int>::const_iterator got = selected.find (recordNum);
+        if (got != selected.end())
+        {
+            _xraysTrain.push_back(_xrays[recordNum]);
+            selected.insert(recordNum);
+        }
+    }
+
+    for (int i = 0; i < _xrays.size(); i++)
+    {
+        std::unordered_set<int>::const_iterator got2 = selected.find (i);
+        if (got2 == selected.end())
+        {
+            _xraysTest.push_back(_xrays[i]);
+        }
+    }
+}
+
+void NoduleDetectionPipeline::extractNodules(std::string extractionSourceDir, std::string extractionDestDir)
+{
+    return;
+}
+
+int NoduleDetectionPipeline::getAverageNoduleBoxHeight()
+{
+    int numNodules, totalHeight;
+    for (int i = 0; i < _xraysTrain.size(); i++)
+    {
+        Radiograph r = _xraysTrain[i];
+        if (r.hasNodule())
+        {
+            numNodules++;
+            totalHeight += r.getHeight();
+        }
+    }
+    return round(totalHeight/numNodules);
+}
+
+void NoduleDetectionPipeline::PrepareTrainingData(std::string rootDataDir, std::string relativeSourceImgDir)
+{
+    ofstream posFile (rootDataDir + "info.dat");
+    ofstream negFile (rootDataDir + "bg.txt");
+    int h = getAverageNoduleBoxHeight();
+
+    for (int i = 0; i < _xraysTrain.size(); i++)
+    {
+        Radiograph r = _xraysTrain[i];
+        if (r.hasNodule())
+        {
+            if (posFile.is_open())
+            {
+                posFile << sourceImgDir + relativeSourceImgDir + r.getFilename() + "\t1" + "\t" + r.getX() + "\t" + r.getY() + "\t" + h + "\t" + h + "\n";
+            }
+        }
+        else
+        {
+            if (negFile.is_open())
+            {
+                negFile << sourceImgDir + relativeSourceImgDir + r.getFilename() + "\n";
+            }
+        }
+    }
+
+    posFile.close();
+    negFile.close();
+}
+
+void NoduleDetectionPipeline::TrainNoduleDetector(std::string modelDestDir)
+{
+    return;
+}
+
 void NoduleDetectionPipeline::PrintMetadata()
 {
     for (int i = 0; i < _xrays.size(); i++)
     {
         std::cout << _xrays[i] << "\n";
     }
-}
-
-void NoduleDetectionPipeline::ExtractNodules()
-{
-    return;
 }
 
 int main()

@@ -20,6 +20,7 @@ class Radiograph
         int _y;
         bool _isMalignant;
         bool _hasNodule;
+        int _height;
         cv::Mat _image;
 
     public:
@@ -33,6 +34,7 @@ class Radiograph
         int getY() const {return _y;}
         bool isMalignant() const {return _isMalignant;}
         bool hasNodule() const {return _hasNodule;}
+        int getHeight() const {return _height;}
         cv::Mat getImage() {return _image;}
         bool LoadImage(std::string directory);
         void DisplayImage();
