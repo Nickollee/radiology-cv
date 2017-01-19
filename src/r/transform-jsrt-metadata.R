@@ -17,8 +17,9 @@ nn_raw <- read.table("../../data/clinical/CNNDAT_EN.txt", sep="\t")
 names(nn_raw) <- c("data")
 nn <- as.data.frame(str_split_fixed(nn_raw$data, "( )+", 4))
 names(nn) <- c("filename", "age", "sex", "nodule")
+
 nn$sex = factor(nn$sex)
-nn$subtlety <- as.factor(NA)
+nn$subtlety <- as.factor(0)
 nn$size_mm <- 0
 nn$x_coord <- -1
 nn$y_coord <- -1
@@ -27,5 +28,10 @@ nn$nodule <- nn$nodule != "non-nodule"
 rm(nn_raw)
 
 xray_metadata <- rbind(ln, nn)
+xray_metadata[ xray_metadata == "?" ] = NA
+
+xray_metadata$age <- round(as.numeric(as.character(xray_metadata$age)), digits = 0)
+xray_metadata[is.na(xray_metadata[,4]), 4] <- round(mean(xray_metadata[,4], na.rm = TRUE), digits = 0)
+
 
 write.csv(xray_metadata, file = "../../data/clinical/xray_metadata.csv", row.names=FALSE)
