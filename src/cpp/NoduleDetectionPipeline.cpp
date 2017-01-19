@@ -18,14 +18,31 @@ void NoduleDetectionPipeline::ReadInMetadata()
     {
         std::vector<std::string> record = records[i];
         std::string filename = record[0];
-        int subtlety = std::stoi(record[1]);
-        int size = std::stoi(record[2]);
-        int age = std::stoi(record[3]);
+
+        std::istringstream is1(record[1]);
+        int subtlety;
+        is1 >> subtlety;
+
+        std::istringstream is2(record[2]);
+        int size;
+        is2 >> size;
+
+        std::istringstream is3(record[3]);
+        int age;
+        is3 >> age;
+
+        std::istringstream is5(record[5]);
+        int x;
+        is5 >> x;
+
+        std::istringstream is6(record[6]);
+        int y;
+        is6 >> y;
+
         bool isMale = record[4] == "TRUE";
-        int x = std::stoi(record[5]);
-        int y = std::stoi(record[6]);
         bool isMalignant = std::stoi(record[7]);
         bool hasNodule = std::stoi(record[8]);
+        
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         std::cout << xray << "\n";
         _xrays.push_back(xray);        
