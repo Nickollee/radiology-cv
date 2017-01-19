@@ -2,6 +2,7 @@
 #include "CSVReader.hpp"
 
 #include <iostream>
+#include <cstdlib>
 
 NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 {
@@ -25,7 +26,7 @@ void NoduleDetectionPipeline::ReadInMetadata()
         int y = std::stoi(record[6]);
         bool isMalignant = std::stoi(record[7]);
         bool hasNodule = std::stoi(record[8]);
-        Radiograph xray(fileName, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
+        Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         std::cout << xray << "\n";
         _xrays.push_back(xray);        
     }
