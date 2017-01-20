@@ -1,3 +1,8 @@
+#include "opencv2/objdetect.hpp"
+#include "opencv2/videoio.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+
 #include "NoduleDetectionPipeline.hpp"
 #include "CSVReader.hpp"
 
@@ -53,7 +58,7 @@ void NoduleDetectionPipeline::readInMetadata()
     }
 }
 
-void NoduleDetectionPipeline::splitTrainTest()
+void NoduleDetectionPipeline::splitTrainTest(double trainSplit, double testSplit)
 {
     if (trainSplit <= 0 || trainSplit >= 1 || testSplit <= 0 || testSplit >= 1)
     {
@@ -86,12 +91,7 @@ void NoduleDetectionPipeline::splitTrainTest()
     }
 }
 
-void NoduleDetectionPipeline::extractNodules(std::string extractionSourceDir, std::string extractionDestDir)
-{
-    return;
-}
-
-int NoduleDetectionPipeline::getAverageNoduleBoxHeight()
+int NoduleDetectionPipeline::computeMeanNoduleBoxHeight()
 {
     int numNodules, totalHeight;
     for (int i = 0; i < _xraysTrain.size(); i++)
@@ -106,15 +106,20 @@ int NoduleDetectionPipeline::getAverageNoduleBoxHeight()
     return round(totalHeight/numNodules);
 }
 
-void NoduleDetectionPipeline::PrepareTrainingData(std::string rootDataDir, std::string relativeSourceImgDir)
+void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relativeSourceImgDir, double trainSplit, double testSplit)
 {
+
+    splitTrainTest(trainSplit, testSplit);
+
     ofstream posFile (rootDataDir + "info.dat");
     ofstream negFile (rootDataDir + "bg.txt");
-    int h = getAverageNoduleBoxHeight();
+    int h = computeMeanNoduleBoxHeight();
 
     for (int i = 0; i < _xraysTrain.size(); i++)
+    // for (int i = 0; i < _xrays.size(); i++)
     {
         Radiograph r = _xraysTrain[i];
+        // Radiograph r = _xrays[i];
         if (r.hasNodule())
         {
             if (posFile.is_open())
@@ -133,11 +138,71 @@ void NoduleDetectionPipeline::PrepareTrainingData(std::string rootDataDir, std::
 
     posFile.close();
     negFile.close();
+
+    std::system("opencv_createsamples -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat");
 }
 
-void NoduleDetectionPipeline::TrainNoduleDetector(std::string modelDestDir)
+void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFile, std::string modelDestDir)
 {
+    int numPos = round(_xraysTrain.size() - 1);
+    int numNeg = numPos * 4;
+    std::system("opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + TRAINING_WINDOW_WIDTH + " -h " + TRAINING_WINDOW_HEIGHT + " -numPos " + numPos + " -numNeg " + numNeg + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     return;
+}
+
+void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, std::string outputDir)
+{
+    int truePositive;
+    int trueNegative;
+    int falsePositive;
+    int falseNegative;
+    int total;
+
+    cv::CascadeClassifier nodule_cascade;
+    nodule_cascade.load(model);
+    for (int i = 0; i < _xraysTest.size(); i++)
+    {
+        cv::Mat frame = imread(testImgDir + _xraysTest[i].getFilename(), CV_LOAD_IMAGE_COLOR);
+        std::vector<cv::Rect> nodules;
+        cv::Mat frame_gray;
+        cv::cvtColor( frame, frame_gray, COLOR_BGR2GRAY );
+        equalizeHist( frame_gray, frame_gray );
+        //-- Detect faces
+        nodule_cascade.detectMultiScale( frame_gray, nodules, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(10, 100) );
+        if (nodules.size() > 0)
+        {
+            if (_xraysTest.hasNodule())
+            {
+                truePositive++;
+            }
+            else
+            {
+                falsePositive++;
+            }
+            for (int j = 0; j < nodules.size(); j++)
+            {
+                cv::rectangle(frame, nodules[j], cv::Scalar(0, 0, 255), 1, cv::LINE_8, 0)
+            }
+            cv::imwrite(outputDir + _xraysTest[i].getFilename(), frame);
+            total++
+        }
+        else if (xraysTest[i].hasNodule())
+        {
+            falseNegative++;
+            total++;
+        }
+        else
+        {
+            trueNegative++;
+            total++;
+        }
+    }
+    ofstream resultFile (outputDir + "result.txt");
+    if (posFile.is_open())
+    {
+        resultFile << "TP: " + truePositive + "\tFP: " + falsePositive + "\nFN: " + falseNegative + "\tTN: " + trueNegative + "\nTotT: " + (truePositive + falseNegative) + "\tTotN: " + (trueNegative + falsePositive);
+    }
+    resultFile.close();
 }
 
 void NoduleDetectionPipeline::PrintMetadata()
