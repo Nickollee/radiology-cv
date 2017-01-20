@@ -108,7 +108,7 @@ int NoduleDetectionPipeline::computeMeanNoduleBoxHeight()
 
 void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relativeSourceImgDir, double trainSplit, double testSplit)
 {
-
+    readInMetadata();
     splitTrainTest(trainSplit, testSplit);
 
     ofstream posFile (rootDataDir + "info.dat");
@@ -216,6 +216,7 @@ void NoduleDetectionPipeline::PrintMetadata()
 int main()
 {
   NoduleDetectionPipeline ndp("../data/clinical/xray_metadata.csv");
-  ndp.ReadInMetadata();
-  ndp.PrintMetadata();
+  ndp.Prepare("/home/brvanove/toil/radiology-cv/data/", "img/", 0.7, 0.3);
+  ndp.Train("/home/brvanove/toil/radiology-cv/data/pos.vec", "/home/brvanove/toil/radiology-cv/data/info.dat", "/home/brvanove/toil/radiology-cv/data/");
+  ndp.Test("/home/brvanove/toil/radiology-cv/data/haarcascade_nodule_cxr.xml", "/home/brvanove/toil/radiology-cv/data/img/", "/home/brvanove/toil/radiology-cv/data/out/");
 }
