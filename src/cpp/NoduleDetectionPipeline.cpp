@@ -8,6 +8,8 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
+#include <unordered_set>
 
 NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 {
@@ -66,13 +68,13 @@ void NoduleDetectionPipeline::splitTrainTest(double trainSplit, double testSplit
     }
     srand (time(NULL));
     int numTrain = std::trunc(_xrays.size() * trainSplit);
-    int numTest = _xrays._size() - numTrain;
+    int numTest = _xrays.size() - numTrain;
 
     std::unordered_set<int> selected;
     while (_xraysTrain.size() < numTrain)
     {
         int recordNum;
-        recordNum = rand() % x_rays.size();
+        recordNum = rand() % _xrays.size();
         std::unordered_set<int>::const_iterator got = selected.find (recordNum);
         if (got != selected.end())
         {
@@ -111,8 +113,8 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     readInMetadata();
     splitTrainTest(trainSplit, testSplit);
 
-    ofstream posFile (rootDataDir + "info.dat");
-    ofstream negFile (rootDataDir + "bg.txt");
+    std::ofstream posFile (rootDataDir + "info.dat");
+    std::ofstream negFile (rootDataDir + "bg.txt");
     int h = computeMeanNoduleBoxHeight();
 
     for (int i = 0; i < _xraysTrain.size(); i++)
@@ -124,14 +126,14 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile << sourceImgDir + relativeSourceImgDir + r.getFilename() + "\t1" + "\t" + r.getX() + "\t" + r.getY() + "\t" + h + "\t" + h + "\n";
+                posFile << rootDataDir + relativeSourceImgDir + r.getFilename() + "\t1" + "\t" + r.getX() + "\t" + r.getY() + "\t" + h + "\t" + h + "\n";
             }
         }
         else
         {
             if (negFile.is_open())
             {
-                negFile << sourceImgDir + relativeSourceImgDir + r.getFilename() + "\n";
+                negFile << rootDataDir + relativeSourceImgDir + r.getFilename() + "\n";
             }
         }
     }

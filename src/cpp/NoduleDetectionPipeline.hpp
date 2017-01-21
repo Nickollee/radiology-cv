@@ -22,6 +22,7 @@ class NoduleDetectionPipeline
         NoduleDetectionPipeline(std::string metadataFileName);
         std::string getMetadataFileName(){return _metadataFileName;}
         void Prepare(std::string rootDataDir, std::string relativeSourceImgDir, double trainSplit, double testSplit);
-        void Train(std::string modelDestDir);
+        void Train(std::string posVectorFile, std::string negFile, std::string modelDestDir);
+        void Test(std::string model, std::string testImgDir, std::String outputDir);
         void PrintMetadata();
 };
