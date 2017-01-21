@@ -116,8 +116,8 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
 
     std::string positiveFile = rootDataDir + "info.dat";
     std::string negativeFile = rootDataDir + "bg.txt";
-    std::ofstream posFile(positiveFile, std::ofstream::out);
-    std::ofstream negFile(negativeFile, std::ofstream::out);
+    std::ofstream posFile(positiveFile.c_str(), std::ios_base::out);
+    std::ofstream negFile(negativeFile.c_str(), std::ios_base::out);
     int h = computeMeanNoduleBoxHeight();
 
     for (int i = 0; i < _xraysTrain.size(); i++)
@@ -204,7 +204,8 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
             total++;
         }
     }
-    std::ofstream resultFile (outputDir + "result.txt");
+    std::string outputPath = outputDir + "result.txt";
+    std::ofstream resultFile (outputPath.c_str(), std::ios_base::out);
     if (resultFile.is_open())
     {
         resultFile << "TP: " + IntToString(truePositive) + "\tFP: " + IntToString(falsePositive) + "\nFN: " + IntToString(falseNegative) + "\tTN: " + IntToString(trueNegative) + "\nTotT: " + IntToString(truePositive + falseNegative) + "\tTotN: " + IntToString(trueNegative + falsePositive);
