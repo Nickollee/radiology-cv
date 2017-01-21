@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
+#include <ostream>
 
 NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 {
@@ -66,7 +67,7 @@ void NoduleDetectionPipeline::splitTrainTest(double trainSplit, double testSplit
         return;
     }
     srand (time(NULL));
-    int numTrain = std::trunc(_xrays.size() * trainSplit);
+    int numTrain = round(_xrays.size() * trainSplit);
     int numTest = _xrays.size() - numTrain;
 
     // std::unordered_set<int> selected;
