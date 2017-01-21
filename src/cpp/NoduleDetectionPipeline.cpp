@@ -126,7 +126,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile << rootDataDir + relativeSourceImgDir + r.getFilename() + "\t1" + "\t" + r.getX() + "\t" + r.getY() + "\t" + h + "\t" + h + "\n";
+                posFile << rootDataDir + relativeSourceImgDir + r.getFilename() + "\t1" + "\t" + std::to_string(r.getX()) + "\t" + std::to_string(r.getY()) + "\t" + std::to_string(h) + "\t" + std::to_string(h) + "\n";
             }
         }
         else
@@ -148,7 +148,7 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
 {
     int numPos = round(_xraysTrain.size() - 1);
     int numNeg = numPos * 4;
-    std::system("opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + TRAINING_WINDOW_WIDTH + " -h " + TRAINING_WINDOW_HEIGHT + " -numPos " + numPos + " -numNeg " + numNeg + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    std::system("opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + std::to_string(TRAINING_WINDOW_WIDTH) + " -h " + std::to_string(TRAINING_WINDOW_HEIGHT) + " -numPos " + std::to_string(numPos) + " -numNeg " + std::to_string(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     return;
 }
 
@@ -164,16 +164,16 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
     nodule_cascade.load(model);
     for (int i = 0; i < _xraysTest.size(); i++)
     {
-        cv::Mat frame = imread(testImgDir + _xraysTest[i].getFilename(), CV_LOAD_IMAGE_COLOR);
+        cv::Mat frame = cv::imread(testImgDir + _xraysTest[i].getFilename(), CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
         cv::Mat frame_gray;
-        cv::cvtColor( frame, frame_gray, COLOR_BGR2GRAY );
+        cv::cvtColor( frame, frame_gray, cv::COLOR_BGR2GRAY );
         equalizeHist( frame_gray, frame_gray );
         //-- Detect faces
-        nodule_cascade.detectMultiScale( frame_gray, nodules, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(10, 100) );
+        nodule_cascade.detectMultiScale( frame_gray, nodules, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(10, 100) );
         if (nodules.size() > 0)
         {
-            if (_xraysTest.hasNodule())
+            if (_xraysTest[i].hasNodule())
             {
                 truePositive++;
             }
@@ -183,12 +183,12 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
             }
             for (int j = 0; j < nodules.size(); j++)
             {
-                cv::rectangle(frame, nodules[j], cv::Scalar(0, 0, 255), 1, cv::LINE_8, 0)
+                cv::rectangle(frame, nodules[j], cv::Scalar(0, 0, 255), 1, cv::LINE_8, 0);
             }
             cv::imwrite(outputDir + _xraysTest[i].getFilename(), frame);
-            total++
+            total++;
         }
-        else if (xraysTest[i].hasNodule())
+        else if (_xraysTest[i].hasNodule())
         {
             falseNegative++;
             total++;
@@ -199,10 +199,10 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
             total++;
         }
     }
-    ofstream resultFile (outputDir + "result.txt");
-    if (posFile.is_open())
+    std::ofstream resultFile (outputDir + "result.txt");
+    if (resultFile.is_open())
     {
-        resultFile << "TP: " + truePositive + "\tFP: " + falsePositive + "\nFN: " + falseNegative + "\tTN: " + trueNegative + "\nTotT: " + (truePositive + falseNegative) + "\tTotN: " + (trueNegative + falsePositive);
+        resultFile << "TP: " + std::to_string(truePositive) + "\tFP: " + std::to_string(falsePositive) + "\nFN: " + std::to_string(falseNegative) + "\tTN: " + std::to_string(trueNegative) + "\nTotT: " + std::to_string(truePositive + falseNegative) + "\tTotN: " + std::to_string(trueNegative + falsePositive);
     }
     resultFile.close();
 }
