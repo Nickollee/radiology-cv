@@ -9,7 +9,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
-#include <unordered_set>
 
 NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 {
@@ -70,23 +69,23 @@ void NoduleDetectionPipeline::splitTrainTest(double trainSplit, double testSplit
     int numTrain = std::trunc(_xrays.size() * trainSplit);
     int numTest = _xrays.size() - numTrain;
 
-    std::unordered_set<int> selected;
+    // std::unordered_set<int> selected;
+    bool selected[_xraysTrain.size()];
     while (_xraysTrain.size() < numTrain)
     {
         int recordNum;
         recordNum = rand() % _xrays.size();
-        std::unordered_set<int>::const_iterator got = selected.find (recordNum);
-        if (got != selected.end())
+        // std::unordered_set<int>::const_iterator got = selected.find (recordNum);
+        if (!selected[recordNum])
         {
             _xraysTrain.push_back(_xrays[recordNum]);
-            selected.insert(recordNum);
+            selected[recordNum] = true;
         }
     }
 
     for (int i = 0; i < _xrays.size(); i++)
     {
-        std::unordered_set<int>::const_iterator got2 = selected.find (i);
-        if (got2 == selected.end())
+        if (!selected[i])
         {
             _xraysTest.push_back(_xrays[i]);
         }
