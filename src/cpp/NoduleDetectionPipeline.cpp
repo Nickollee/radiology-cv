@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <ostream>
+#include <fstream>
 
 NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 {
@@ -113,7 +114,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     readInMetadata();
     splitTrainTest(trainSplit, testSplit);
 
-    std::string positveFile = rootDataDir + "info.dat";
+    std::string positiveFile = rootDataDir + "info.dat";
     std::string negativeFile = rootDataDir + "bg.txt";
     std::ofstream posFile(positiveFile, std::ofstream::out);
     std::ofstream negFile(negativeFile, std::ofstream::out);
@@ -143,14 +144,16 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     posFile.close();
     negFile.close();
 
-    std::system("opencv_createsamples -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat");
+    std::string sysStr1 = "opencv_createsamples -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
+    std::system(sysStr1.c_str());
 }
 
 void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFile, std::string modelDestDir)
 {
     int numPos = round(_xraysTrain.size() - 1);
     int numNeg = numPos * 4;
-    std::system("opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    std::string sysStr2 = "opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    std::system(sysStr2.c_str());
     return;
 }
 
