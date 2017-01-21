@@ -113,8 +113,10 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     readInMetadata();
     splitTrainTest(trainSplit, testSplit);
 
-    std::ofstream posFile (rootDataDir + "info.dat");
-    std::ofstream negFile (rootDataDir + "bg.txt");
+    std::string positveFile = rootDataDir + "info.dat";
+    std::string negativeFile = rootDataDir + "bg.txt";
+    std::ofstream posFile(positiveFile, std::ofstream::out);
+    std::ofstream negFile(negativeFile, std::ofstream::out);
     int h = computeMeanNoduleBoxHeight();
 
     for (int i = 0; i < _xraysTrain.size(); i++)
@@ -126,7 +128,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile << rootDataDir + relativeSourceImgDir + r.getFilename() + "\t1" + "\t" + std::to_string(r.getX()) + "\t" + std::to_string(r.getY()) + "\t" + std::to_string(h) + "\t" + std::to_string(h) + "\n";
+                posFile << rootDataDir + relativeSourceImgDir + r.getFilename() + "\t1" + "\t" + IntToString(r.getX()) + "\t" + IntToString(r.getY()) + "\t" + IntToString(h) + "\t" + IntToString(h) + "\n";
             }
         }
         else
@@ -148,7 +150,7 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
 {
     int numPos = round(_xraysTrain.size() - 1);
     int numNeg = numPos * 4;
-    std::system("opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + std::to_string(TRAINING_WINDOW_WIDTH) + " -h " + std::to_string(TRAINING_WINDOW_HEIGHT) + " -numPos " + std::to_string(numPos) + " -numNeg " + std::to_string(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    std::system("opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     return;
 }
 
@@ -202,7 +204,7 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
     std::ofstream resultFile (outputDir + "result.txt");
     if (resultFile.is_open())
     {
-        resultFile << "TP: " + std::to_string(truePositive) + "\tFP: " + std::to_string(falsePositive) + "\nFN: " + std::to_string(falseNegative) + "\tTN: " + std::to_string(trueNegative) + "\nTotT: " + std::to_string(truePositive + falseNegative) + "\tTotN: " + std::to_string(trueNegative + falsePositive);
+        resultFile << "TP: " + IntToString(truePositive) + "\tFP: " + IntToString(falsePositive) + "\nFN: " + IntToString(falseNegative) + "\tTN: " + IntToString(trueNegative) + "\nTotT: " + IntToString(truePositive + falseNegative) + "\tTotN: " + IntToString(trueNegative + falsePositive);
     }
     resultFile.close();
 }

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 
 int const TRAINING_WINDOW_WIDTH = 15;
 int const TRAINING_WINDOW_HEIGHT = 15;
@@ -17,6 +18,12 @@ class NoduleDetectionPipeline
         void readInMetadata();
         void splitTrainTest(double trainSplit, double testSplit);
         int computeMeanNoduleBoxHeight();
+        std::string IntToString(int a)
+        {
+            std::ostringstream temp;
+            temp<<a;
+            return temp.str();
+        }
 
     public:
         NoduleDetectionPipeline(std::string metadataFileName);
