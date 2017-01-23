@@ -56,7 +56,7 @@ void NoduleDetectionPipeline::readInMetadata()
             hasNodule = true;
         }
 
-        Radiograph xray = new Radiograph(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
+        Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         std::cout << xray;
         _xrays.push_back(xray);
     }
