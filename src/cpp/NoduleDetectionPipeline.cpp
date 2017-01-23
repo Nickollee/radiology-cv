@@ -182,9 +182,9 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
         std::cout << _xraysTest[i].getFilename() << "\n";
 
         std::string imgFileName = _xraysTest[i].getFilename();
-        std::string clnImgFileName = imgFileName.erase(remove(imgFileName.begin(), imgFileName.end(), '\"' ),imgFileName.end());
+        std::string clnImgFileName = imgFileName.substr(1, imgFileName.length() - 1);
 
-        cv::Mat frame = cv::imread(testImgDir + imgFileName, CV_LOAD_IMAGE_COLOR);
+        cv::Mat frame = cv::imread(testImgDir + clnImgFileName, CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
         cv::Mat frame_gray;
         cv::cvtColor( frame, frame_gray, cv::COLOR_BGR2GRAY );
