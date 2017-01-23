@@ -24,6 +24,7 @@ class NoduleDetectionPipeline
             temp<<a;
             return temp.str();
         }
+        int _meanNoduleBoxHeight;
 
     public:
         NoduleDetectionPipeline(std::string metadataFileName);
@@ -32,4 +33,5 @@ class NoduleDetectionPipeline
         void Train(std::string posVectorFile, std::string negFile, std::string modelDestDir);
         void Test(std::string model, std::string testImgDir, std::string outputDir);
         void PrintMetadata();
+        int getMeanNoduleBoxHeight(){return _meanNoduleBoxHeight;}
 };
