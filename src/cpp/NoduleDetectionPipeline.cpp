@@ -58,8 +58,8 @@ void NoduleDetectionPipeline::readInMetadata()
 
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         _xrays.push_back(xray);
-        std::cout << "Metadata read!";        
     }
+    std::cout << "Metadata read!";        
 }
 
 void NoduleDetectionPipeline::splitTrainTest(double trainSplit, double testSplit)
