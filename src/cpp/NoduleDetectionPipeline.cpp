@@ -57,7 +57,6 @@ void NoduleDetectionPipeline::readInMetadata()
         }
 
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
-        std::cout << xray;
         _xrays.push_back(xray);
     }
     std::cout << "Metadata read!";        
@@ -109,8 +108,8 @@ int NoduleDetectionPipeline::computeMeanNoduleBoxHeight()
             totalHeight += r.getHeight();
         }
     }
-    return round(totalHeight/numNodules);
     std::cout << "Mean box nodule height computed!";
+    return round(totalHeight/numNodules);
 }
 
 void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relativeSourceImgDir, double trainSplit, double testSplit)
@@ -172,10 +171,14 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
     int falseNegative;
     int total;
 
+    std::cout << "TEST!!!!!!!!!!!!!!!!!";
+
     cv::CascadeClassifier nodule_cascade;
     nodule_cascade.load(model);
     for (int i = 0; i < _xraysTest.size(); i++)
     {
+        std::cout << _xraysTest[i];
+
         cv::Mat frame = cv::imread(testImgDir + _xraysTest[i].getFilename(), CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
         cv::Mat frame_gray;
