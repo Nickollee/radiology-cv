@@ -133,14 +133,14 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile <<  relativeSourceImgDir + fn.substr(1, 12) + " 1" + " " + IntToString(r.getX()) + " " + IntToString(r.getY()) + " " + IntToString(h) + " " + IntToString(h) + "\n";
+                posFile <<  relativeSourceImgDir + fn.substr(1, 12).replace(9, 3, "jpg") + " 1" + " " + IntToString(r.getX()) + " " + IntToString(r.getY()) + " " + IntToString(h) + " " + IntToString(h) + "\n";
             }
         }
         else
         {
             if (negFile.is_open())
             {
-                negFile << relativeSourceImgDir + fn.substr(1, 12) + "\n";
+                negFile << relativeSourceImgDir + fn.substr(1, 12).replace(9, 3, "jpg") + "\n";
             }
         }
     }
@@ -180,7 +180,7 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
     {
 
         std::string imgFileName = _xraysTest[i].getFilename();
-        std::string clnImgFileName = imgFileName.substr(1, 12);
+        std::string clnImgFileName = imgFileName.substr(1, 12).replace(9, 3, "jpg");
 
         cv::Mat frame = cv::imread(testImgDir + clnImgFileName, CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
