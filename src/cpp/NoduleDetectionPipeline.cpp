@@ -149,7 +149,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     posFile.close();
     negFile.close();
 
-    std::string sysStr1 = "opencv_createsamples 100 -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
+    std::string sysStr1 = "opencv_createsamples -num 100 -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
     std::system(sysStr1.c_str());
 
     std::cout << "Data prepared!";
