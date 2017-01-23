@@ -134,7 +134,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile <<  relativeSourceImgDir + fn.substr(1, 12).replace(9, 3, "jpg") + " 1" + " " + IntToString(r.getX()) + " " + IntToString(r.getY()) + " " + IntToString(_meanNoduleBoxHeight) + " " + IntToString(_meanNoduleBoxHeight) + "\n";
+                posFile <<  relativeSourceImgDir + fn.substr(1, 12).replace(9, 3, "jpg") + " 1" + " " + IntToString(r.getX()) + " " + IntToString(r.getY()) + " " + IntToString(24) + " " + IntToString(24) + "\n";
             }
         }
         else
@@ -161,7 +161,7 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
     //int numNeg = numPos * 4;
     int numPos = 10;
     int numNeg = 50;
-    std::string sysStr2 = "opencv_traincascade -data haarcascade_nodule_cxr.xml -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(_meanNoduleBoxHeight) + " -h " + IntToString(_meanNoduleBoxHeight) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    std::string sysStr2 = "opencv_traincascade -data haarcascade_nodule_cxr.xml -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(24) + " -h " + IntToString(24) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     std::system(sysStr2.c_str());
     std::cout << "Model trained!";
     return;
