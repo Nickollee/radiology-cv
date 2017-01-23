@@ -58,7 +58,7 @@ void NoduleDetectionPipeline::readInMetadata()
 
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         _xrays.push_back(xray);
-        cout << "Metadata read!";        
+        std::cout << "Metadata read!";        
     }
 }
 
@@ -109,7 +109,7 @@ int NoduleDetectionPipeline::computeMeanNoduleBoxHeight()
         }
     }
     return round(totalHeight/numNodules);
-    cout << "Mean box nodule height computed!";
+    std::cout << "Mean box nodule height computed!";
 }
 
 void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relativeSourceImgDir, double trainSplit, double testSplit)
@@ -150,7 +150,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     std::string sysStr1 = "opencv_createsamples -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
     std::system(sysStr1.c_str());
 
-    cout << "Data prepared!";
+    std::cout << "Data prepared!";
 }
 
 void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFile, std::string modelDestDir)
@@ -159,7 +159,7 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
     int numNeg = numPos * 4;
     std::string sysStr2 = "opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     std::system(sysStr2.c_str());
-    cout << "Model trained!";
+    std::cout << "Model trained!";
     return;
 }
 
@@ -217,7 +217,7 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
         resultFile << "TP: " + IntToString(truePositive) + "\tFP: " + IntToString(falsePositive) + "\nFN: " + IntToString(falseNegative) + "\tTN: " + IntToString(trueNegative) + "\nTotT: " + IntToString(truePositive + falseNegative) + "\tTotN: " + IntToString(trueNegative + falsePositive);
     }
     resultFile.close();
-    cout << "Model tested!";
+    std::cout << "Model tested!";
 }
 
 void NoduleDetectionPipeline::PrintMetadata()
