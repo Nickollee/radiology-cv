@@ -74,7 +74,7 @@ void NoduleDetectionPipeline::splitTrainTest(double trainSplit, double testSplit
     int numTest = _xrays.size() - numTrain;
 
     // std::unordered_set<int> selected;
-    bool selected[_xraysTrain.size()];
+    bool* selected = new bool[_xraysTrain.size()];
     while (_xraysTrain.size() < numTrain)
     {
         int recordNum;
