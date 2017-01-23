@@ -15,11 +15,6 @@
 NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 {
     _metadataFileName = metadataFileName;
-    _xrays = new std::vector<Radiograph*>;
-    _xraysTrain = new std::vector<Radiograph*>;
-    _xraysTest = new std::vector<Radiograph*>;
-    _xraysXValid = new std::vector<Radiograph*>;
-
 }
 
 void NoduleDetectionPipeline::readInMetadata()
@@ -61,7 +56,7 @@ void NoduleDetectionPipeline::readInMetadata()
             hasNodule = true;
         }
 
-        Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
+        Radiograph* xray = new Radiograph(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
         std::cout << xray;
         _xrays.push_back(xray);
     }
