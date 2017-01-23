@@ -134,7 +134,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile <<  relativeSourceImgDir + fn.substr(1, 12).replace(9, 3, "jpg") + " 1" + " " + IntToString(r.getX()) + " " + IntToString(r.getY()) + " " + IntToString(24) + " " + IntToString(24) + "\n";
+                posFile <<  relativeSourceImgDir + fn.substr(1, 12).replace(9, 3, "jpg") + " 1" + " " + IntToString(r.getX()) + " " + IntToString(r.getY()) + " " + IntToString(15) + " " + IntToString(15) + "\n";
             }
         }
         else
@@ -149,7 +149,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     posFile.close();
     negFile.close();
 
-    std::string sysStr1 = "opencv_createsamples -num 100 -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
+    std::string sysStr1 = "opencv_createsamples -num 50 -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
     std::system(sysStr1.c_str());
 
     std::cout << "Data prepared!";
@@ -159,9 +159,9 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
 {
     //int numPos = round(_xraysTrain.size() - 1);
     //int numNeg = numPos * 4;
-    int numPos = 10;
-    int numNeg = 50;
-    std::string sysStr2 = "opencv_traincascade -data haarcascade_nodule_cxr.xml -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(24) + " -h " + IntToString(24) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    int numPos = 5;
+    int numNeg = 20;
+    std::string sysStr2 = "opencv_traincascade -data haarcascade_nodule_cxr.xml -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(15) + " -h " + IntToString(15) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     std::system(sysStr2.c_str());
     std::cout << "Model trained!";
     return;
