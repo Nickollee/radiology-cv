@@ -57,7 +57,7 @@ void NoduleDetectionPipeline::readInMetadata()
         }
 
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
-        std::cout(xray);
+        std::cout << xray;
         _xrays.push_back(xray);
     }
     std::cout << "Metadata read!";        
