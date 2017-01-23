@@ -133,14 +133,14 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile <<  relativeSourceImgDir + fn.substr(1, 12) + " 1" + " " + IntToString(r.getX()) + " " + IntToString(r.getY()) + " " + IntToString(h) + " " + IntToString(h) + "\n";
+                posFile <<  "../../../home/brvanove/toil/radiology-cv/data/" + relativeSourceImgDir + fn.substr(1, 12) + " 1" + " " + IntToString(r.getX()) + " " + IntToString(r.getY()) + " " + IntToString(h) + " " + IntToString(h) + "\n";
             }
         }
         else
         {
             if (negFile.is_open())
             {
-                negFile << relativeSourceImgDir + fn.substr(1, 12) + "\n";
+                negFile << "../../../home/brvanove/toil/radiology-cv/data/" + relativeSourceImgDir + fn.substr(1, 12) + "\n";
             }
         }
     }
@@ -148,7 +148,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     posFile.close();
     negFile.close();
 
-    std::string sysStr1 = "opencv_createsamples -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
+    std::string sysStr1 = "opencv_createsamples -num 100 -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
     std::system(sysStr1.c_str());
 
     std::cout << "Data prepared!";
