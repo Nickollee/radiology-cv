@@ -11,10 +11,10 @@ class NoduleDetectionPipeline
 {
     private:
         std::string _metadataFileName;
-        std::vector<Radiograph> _xrays;
-        std::vector<Radiograph> _xraysTrain;
-        std::vector<Radiograph> _xraysTest;
-        std::vector<Radiograph> _xraysXValid;
+        std::vector<Radiograph*> _xrays;
+        std::vector<Radiograph*> _xraysTrain;
+        std::vector<Radiograph*> _xraysTest;
+        std::vector<Radiograph*> _xraysXValid;
         void readInMetadata();
         void splitTrainTest(double trainSplit, double testSplit);
         int computeMeanNoduleBoxHeight();
