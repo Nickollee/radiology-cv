@@ -34,5 +34,7 @@ xray_metadata$filename <- as.character(xray_metadata$filename)
 xray_metadata$age <- round(as.numeric(as.character(xray_metadata$age)), digits = 0)
 xray_metadata[is.na(xray_metadata[,4]), 4] <- round(mean(xray_metadata[,4], na.rm = TRUE), digits = 0)
 
+corrupted_imgs <- c("LN031", "LN037", "LN078", "LN083", "LN094", "LN117")
+xray_metadata <- xray_metadata[!str_extract(xray_metadata$filename, "LN[0-9]{3}") %in% corrupted_imgs, ]
 
 write.csv(xray_metadata, file = "../../data/clinical/xray_metadata.csv", row.names=FALSE)

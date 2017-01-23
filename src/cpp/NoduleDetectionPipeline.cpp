@@ -57,7 +57,8 @@ void NoduleDetectionPipeline::readInMetadata()
         }
 
         Radiograph xray(filename, subtlety, size, age, isMale, x, y, isMalignant, hasNodule);
-        _xrays.push_back(xray);        
+        _xrays.push_back(xray);
+        cout << "Metadata read!";        
     }
 }
 
@@ -92,6 +93,7 @@ void NoduleDetectionPipeline::splitTrainTest(double trainSplit, double testSplit
             _xraysTest.push_back(_xrays[i]);
         }
     }
+    cout << "Data split!";
 }
 
 int NoduleDetectionPipeline::computeMeanNoduleBoxHeight()
@@ -107,6 +109,7 @@ int NoduleDetectionPipeline::computeMeanNoduleBoxHeight()
         }
     }
     return round(totalHeight/numNodules);
+    cout << "Mean box nodule height computed!";
 }
 
 void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relativeSourceImgDir, double trainSplit, double testSplit)
@@ -146,6 +149,8 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
 
     std::string sysStr1 = "opencv_createsamples -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
     std::system(sysStr1.c_str());
+
+    cout << "Data prepared!";
 }
 
 void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFile, std::string modelDestDir)
@@ -154,6 +159,7 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
     int numNeg = numPos * 4;
     std::string sysStr2 = "opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     std::system(sysStr2.c_str());
+    cout << "Model trained!";
     return;
 }
 
@@ -211,6 +217,7 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
         resultFile << "TP: " + IntToString(truePositive) + "\tFP: " + IntToString(falsePositive) + "\nFN: " + IntToString(falseNegative) + "\tTN: " + IntToString(trueNegative) + "\nTotT: " + IntToString(truePositive + falseNegative) + "\tTotN: " + IntToString(trueNegative + falsePositive);
     }
     resultFile.close();
+    cout << "Model tested!";
 }
 
 void NoduleDetectionPipeline::PrintMetadata()
@@ -225,6 +232,7 @@ int main()
 {
   NoduleDetectionPipeline ndp("../data/clinical/xray_metadata.csv");
   ndp.Prepare("/home/brvanove/toil/radiology-cv/data/", "img/", 0.7, 0.3);
-  ndp.Train("/home/brvanove/toil/radiology-cv/data/pos.vec", "/home/brvanove/toil/radiology-cv/data/info.dat", "/home/brvanove/toil/radiology-cv/data/");
+  ndp.Train("/home/brvanove/toil/radiology-cv/data/pos.vec", "/home/brvanove/toil/radiology-cv/data/bg.txt", "/home/brvanove/toil/radiology-cv/data/");
   ndp.Test("/home/brvanove/toil/radiology-cv/data/haarcascade_nodule_cxr.xml", "/home/brvanove/toil/radiology-cv/data/img/", "/home/brvanove/toil/radiology-cv/data/out/");
 }
+
