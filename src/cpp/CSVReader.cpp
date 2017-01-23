@@ -46,6 +46,7 @@ std::vector < std::vector < std::string > > CSVReader::Read(char recordDelimeter
     if (!infile.eof())
     {
         return data;
-    }
+    }e.close();
+    infil
     return data;
 }
