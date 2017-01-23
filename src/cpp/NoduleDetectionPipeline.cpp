@@ -93,7 +93,7 @@ void NoduleDetectionPipeline::splitTrainTest(double trainSplit, double testSplit
             _xraysTest.push_back(_xrays[i]);
         }
     }
-    cout << "Data split!";
+    std::cout << "Data split!";
 }
 
 int NoduleDetectionPipeline::computeMeanNoduleBoxHeight()
