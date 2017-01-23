@@ -132,14 +132,14 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile << rootDataDir + relativeSourceImgDir + r.getFilename() + "\t1" + "\t" + IntToString(r.getX()) + "\t" + IntToString(r.getY()) + "\t" + IntToString(h) + "\t" + IntToString(h) + "\n";
+                posFile <<  relativeSourceImgDir + r.getFilename().substr(1, r.getFilename() - 1) + "\t1" + "\t" + IntToString(r.getX()) + "\t" + IntToString(r.getY()) + "\t" + IntToString(h) + "\t" + IntToString(h) + "\n";
             }
         }
         else
         {
             if (negFile.is_open())
             {
-                negFile << rootDataDir + relativeSourceImgDir + r.getFilename() + "\n";
+                negFile << relativeSourceImgDir + r.getFilename().substr(1, r.getFilename() - 1) + "\n";
             }
         }
     }
