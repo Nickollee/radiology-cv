@@ -148,7 +148,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     posFile.close();
     negFile.close();
 
-    std::string sysStr1 = "opencv_createsamples -num 100 -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
+    std::string sysStr1 = "opencv_createsamples -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
     std::system(sysStr1.c_str());
 
     std::cout << "Data prepared!";
@@ -158,7 +158,7 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
 {
     int numPos = round(_xraysTrain.size() - 1);
     int numNeg = numPos * 4;
-    std::string sysStr2 = "opencv_traincascade -data " + modelDestDir + "haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    std::string sysStr2 = "opencv_traincascade -data " + "haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     std::system(sysStr2.c_str());
     std::cout << "Model trained!";
     return;
@@ -184,11 +184,11 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
 
         cv::Mat frame = cv::imread(testImgDir + clnImgFileName, CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
-        cv::Mat frame_gray;
-        cv::cvtColor( frame, frame_gray, cv::COLOR_BGR2GRAY );
-        equalizeHist( frame_gray, frame_gray );
+        //cv::Mat frame_gray;
+        //cv::cvtColor( frame, frame_gray, cv::COLOR_BGR2GRAY );
+        equalizeHist( frame, frame );
         //-- Detect faces
-        nodule_cascade.detectMultiScale( frame_gray, nodules, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(10, 100) );
+        nodule_cascade.detectMultiScale( frame, nodules, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(10, 100) );
         if (nodules.size() > 0)
         {
             if (_xraysTest[i].hasNodule())
