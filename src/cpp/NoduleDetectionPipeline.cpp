@@ -180,11 +180,9 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
         std::cout << _xraysTest[i] << "\n";
         std::cout << testImgDir << "\n";
         std::cout << _xraysTest[i].getFilename() << "\n";
-        std::string imgFileName = _xraysTest[i].getFilename();
-        if ( imgFileName.front() == '"' ) {
-            imgFileName.erase( 0, 1 ); // erase the first character
-            imgFileName.erase( s.size() - 1 ); // erase the last character
-        }
+
+        std::string imgFileName = _xrayTest[i].getFilename().erase(remove( _xrayTest[i].getFilename().begin(), _xrayTest[i].getFilename().end(), '\"' ),_xrayTest[i].getFilename().end());
+
         cv::Mat frame = cv::imread(testImgDir + imgFileName, CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
         cv::Mat frame_gray;
