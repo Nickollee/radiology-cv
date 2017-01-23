@@ -159,8 +159,8 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
 {
     //int numPos = round(_xraysTrain.size() - 1);
     //int numNeg = numPos * 4;
-    int numPos = 5;
-    int numNeg = 20;
+    int numPos = 49;
+    int numNeg = 110;
     std::string sysStr2 = "opencv_traincascade -data haarcascade_nodule_cxr.xml -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(15) + " -h " + IntToString(15) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     std::system(sysStr2.c_str());
     std::cout << "Model trained!";
