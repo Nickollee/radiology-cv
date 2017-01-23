@@ -157,7 +157,7 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
 {
     int numPos = round(_xraysTrain.size() - 1);
     int numNeg = numPos * 4;
-    std::string sysStr2 = "opencv_traincascade -data " + modelDestDir + "/haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    std::string sysStr2 = "opencv_traincascade -data " + modelDestDir + "haarcascade_nodule_cxr.xml" + " -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     std::system(sysStr2.c_str());
     std::cout << "Model trained!";
     return;
@@ -180,7 +180,12 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
         std::cout << _xraysTest[i] << "\n";
         std::cout << testImgDir << "\n";
         std::cout << _xraysTest[i].getFilename() << "\n";
-        cv::Mat frame = cv::imread(testImgDir + _xraysTest[i].getFilename(), CV_LOAD_IMAGE_COLOR);
+        std::string imgFileName = _xraysTest[i].getFilename();
+        if ( imgFileName.front() == '"' ) {
+            imgFileName.erase( 0, 1 ); // erase the first character
+            imgFileName.erase( s.size() - 1 ); // erase the last character
+        }
+        cv::Mat frame = cv::imread(testImgDir + imgFileName, CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
         cv::Mat frame_gray;
         cv::cvtColor( frame, frame_gray, cv::COLOR_BGR2GRAY );
@@ -238,6 +243,6 @@ int main()
   NoduleDetectionPipeline ndp("../data/clinical/xray_metadata.csv");
   ndp.Prepare("/home/brvanove/toil/radiology-cv/data/", "img/", 0.7, 0.3);
   ndp.Train("/home/brvanove/toil/radiology-cv/data/pos.vec", "/home/brvanove/toil/radiology-cv/data/bg.txt", "/home/brvanove/toil/radiology-cv/data/");
-  ndp.Test("/home/brvanove/toil/radiology-cv/data/haarcascade_nodule_cxr.xml", "/home/brvanove/toil/radiology-cv/data/img/", "/home/brvanove/toil/radiology-cv/data/out/");
+  ndp.Test("/home/brvanove/toil/radiology-cv/data/haarcascade_nodule_cxr.xml", "img/", "/home/brvanove/toil/radiology-cv/data/out/");
 }
 
