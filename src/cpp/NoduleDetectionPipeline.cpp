@@ -160,7 +160,7 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
     //int numNeg = numPos * 4;
     int numPos = 1;
     int numNeg = 5;
-    std::string sysStr2 = "opencv_traincascade -data haarcascade_nodule_cxr.xml -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(TRAINING_WINDOW_WIDTH) + " -h " + IntToString(TRAINING_WINDOW_HEIGHT) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    std::string sysStr2 = "opencv_traincascade -data haarcascade_nodule_cxr.xml -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(computeMeanNoduleBoxHeight()) + " -h " + IntToString(computeMeanNoduleBoxHeight()) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     std::system(sysStr2.c_str());
     std::cout << "Model trained!";
     return;
