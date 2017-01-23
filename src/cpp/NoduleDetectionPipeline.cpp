@@ -127,19 +127,20 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     // for (int i = 0; i < _xrays.size(); i++)
     {
         Radiograph r = _xraysTrain[i];
+        std::string fn = r.getFilename();
         // Radiograph r = _xrays[i];
         if (r.hasNodule())
         {
             if (posFile.is_open())
             {
-                posFile <<  relativeSourceImgDir + r.getFilename().substr(1, r.getFilename().length() - 1) + "\t1" + "\t" + IntToString(r.getX()) + "\t" + IntToString(r.getY()) + "\t" + IntToString(h) + "\t" + IntToString(h) + "\n";
+                posFile <<  relativeSourceImgDir + fn.substr(1, fn.find("G") + 1) + "\t1" + "\t" + IntToString(r.getX()) + "\t" + IntToString(r.getY()) + "\t" + IntToString(h) + "\t" + IntToString(h) + "\n";
             }
         }
         else
         {
             if (negFile.is_open())
             {
-                negFile << relativeSourceImgDir + r.getFilename().substr(1, r.getFilename().length() - 1) + "\n";
+                negFile << relativeSourceImgDir + fn.substr(1, fn.find("G") + 1) + "\n";
             }
         }
     }
