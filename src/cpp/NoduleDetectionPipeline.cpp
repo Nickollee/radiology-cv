@@ -239,7 +239,7 @@ int main()
 {
   NoduleDetectionPipeline ndp("../data/clinical/xray_metadata.csv");
   ndp.Prepare("/home/brvanove/toil/radiology-cv/data/", "img/", 0.7, 0.3);
-  ndp.Train("/home/brvanove/toil/radiology-cv/data/pos.vec", "/home/brvanove/toil/radiology-cv/data/bg.txt", "/home/brvanove/toil/radiology-cv/data/");
+  ndp.Train("/home/brvanove/toil/radiology-cv/data/pos.vec", "/home/brvanove/toil/radiology-cv/data/bg.txt", "/usr/local/bin/");
   ndp.Test("/home/brvanove/toil/radiology-cv/data/haarcascade_nodule_cxr.xml", "img/", "/home/brvanove/toil/radiology-cv/data/out/");
 }
 
