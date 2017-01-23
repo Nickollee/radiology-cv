@@ -15,10 +15,10 @@
 NoduleDetectionPipeline::NoduleDetectionPipeline(std::string metadataFileName)
 {
     _metadataFileName = metadataFileName;
-    _xrays = new std::vector<Radiograph>;
-    _xraysTrain = new std::vector<Radiograph>;
-    _xraysTest = new std::vector<Radiograph>;
-    _xraysXValid = new std::vector<Radiograph>;
+    _xrays = new std::vector<Radiograph*>;
+    _xraysTrain = new std::vector<Radiograph*>;
+    _xraysTest = new std::vector<Radiograph*>;
+    _xraysXValid = new std::vector<Radiograph*>;
 
 }
 
