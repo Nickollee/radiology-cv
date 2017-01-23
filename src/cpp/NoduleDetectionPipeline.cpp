@@ -133,14 +133,14 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile <<  relativeSourceImgDir + fn.substr(1, fn.find("G") + 1) + "\t1" + "\t" + IntToString(r.getX()) + "\t" + IntToString(r.getY()) + "\t" + IntToString(h) + "\t" + IntToString(h) + "\n";
+                posFile <<  relativeSourceImgDir + fn.substr(1, 12) + "\t1" + "\t" + IntToString(r.getX()) + "\t" + IntToString(r.getY()) + "\t" + IntToString(h) + "\t" + IntToString(h) + "\n";
             }
         }
         else
         {
             if (negFile.is_open())
             {
-                negFile << relativeSourceImgDir + fn.substr(1, fn.find("G") + 1) + "\n";
+                negFile << relativeSourceImgDir + fn.substr(1, 12) + "\n";
             }
         }
     }
@@ -178,12 +178,9 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
     nodule_cascade.load(model);
     for (int i = 0; i < _xraysTest.size(); i++)
     {
-        std::cout << _xraysTest[i] << "\n";
-        std::cout << testImgDir << "\n";
-        std::cout << _xraysTest[i].getFilename() << "\n";
 
         std::string imgFileName = _xraysTest[i].getFilename();
-        std::string clnImgFileName = imgFileName.substr(1, imgFileName.length() - 1);
+        std::string clnImgFileName = imgFileName.substr(1, 12);
 
         cv::Mat frame = cv::imread(testImgDir + clnImgFileName, CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
