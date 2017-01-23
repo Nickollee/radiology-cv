@@ -177,8 +177,9 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
     nodule_cascade.load(model);
     for (int i = 0; i < _xraysTest.size(); i++)
     {
-        std::cout << _xraysTest[i];
-
+        std::cout << _xraysTest[i] << "\n";
+        std::cout << testImgDir << "\n";
+        std::cout << _xraysTest[i].getFilename() << "\n";
         cv::Mat frame = cv::imread(testImgDir + _xraysTest[i].getFilename(), CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
         cv::Mat frame_gray;
