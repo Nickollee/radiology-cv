@@ -133,7 +133,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (posFile.is_open())
             {
-                posFile <<  relativeSourceImgDir + fn.substr(1, 12) + "\t1" + "\t" + IntToString(r.getX()) + "\t" + IntToString(r.getY()) + "\t" + IntToString(h) + "\t" + IntToString(h) + "\n";
+                posFile <<  relativeSourceImgDir + fn.substr(1, 12) + " 1" + " " + IntToString(r.getX()) + " " + IntToString(r.getY()) + " " + IntToString(h) + " " + IntToString(h) + "\n";
             }
         }
         else
