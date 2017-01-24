@@ -141,7 +141,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
         {
             if (negFile.is_open())
             {
-                negFile << relativeSourceImgDir + fn.substr(1, 12).replace(9, 3, "jpg") + "\n";
+                negFile << rootDataDir + relativeSourceImgDir + fn.substr(1, 12).replace(9, 3, "jpg") + "\n";
             }
         }
     }
@@ -149,7 +149,7 @@ void NoduleDetectionPipeline::Prepare(std::string rootDataDir, std::string relat
     posFile.close();
     negFile.close();
 
-    std::string sysStr1 = "opencv_createsamples -num 150 -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
+    std::string sysStr1 = "opencv_createsamples -vec " + rootDataDir + "pos.vec -info " + rootDataDir + "info.dat";
     std::system(sysStr1.c_str());
 
     std::cout << "Data prepared!";
@@ -159,9 +159,9 @@ void NoduleDetectionPipeline::Train(std::string posVectorFile, std::string negFi
 {
     //int numPos = round(_xraysTrain.size() - 1);
     //int numNeg = numPos * 4;
-    int numPos = 130;
-    int numNeg = 600;
-    std::string sysStr2 = "opencv_traincascade -data haarcascade_nodule_cxr.xml -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(24) + " -h " + IntToString(24) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
+    int numPos = 50;
+    int numNeg = 80;
+    std::string sysStr2 = "opencv_traincascade -data /home/brvanove/toil/radiology-cv/data/model -vec " + posVectorFile + " -bg " + negFile + " -w " + IntToString(24) + " -h " + IntToString(24) + " -numPos " + IntToString(numPos) + " -numNeg " + IntToString(numNeg) + " -precalcValBufSize 1024 -precalcIdxBufSize 1024 -featureType HAAR";
     std::system(sysStr2.c_str());
     std::cout << "Model trained!";
     return;
@@ -184,14 +184,15 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
 
         std::string imgFileName = _xraysTest[i].getFilename();
         std::string clnImgFileName = imgFileName.substr(1, 12).replace(9, 3, "jpg");
+        std::cout << testImgDir << clnImgFileName;
 
         cv::Mat frame = cv::imread(testImgDir + clnImgFileName, CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Rect> nodules;
-        //cv::Mat frame_gray;
-        //cv::cvtColor( frame, frame_gray, cv::COLOR_BGR2GRAY );
-        equalizeHist( frame, frame );
-        //-- Detect faces
-        nodule_cascade.detectMultiScale( frame, nodules, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(10, 100) );
+        cv::Mat frame_gray;
+        cv::cvtColor( frame, frame_gray, cv::COLOR_BGR2GRAY );
+        equalizeHist( frame_gray, frame_gray );
+       ///-- Detect faces
+        nodule_cascade.detectMultiScale( frame_gray, nodules, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(10, 100) );
         if (nodules.size() > 0)
         {
             if (_xraysTest[i].hasNodule())
@@ -206,7 +207,7 @@ void NoduleDetectionPipeline::Test(std::string model, std::string testImgDir, st
             {
                 cv::rectangle(frame, nodules[j], cv::Scalar(0, 0, 255), 1, cv::LINE_8, 0);
             }
-            cv::imwrite(outputDir + _xraysTest[i].getFilename(), frame);
+            cv::imwrite(outputDir + _xraysTest[i].getFilename().substr(1, 12).replace(9, 3, "jpg"), frame);
             total++;
         }
         else if (_xraysTest[i].hasNodule())
@@ -243,6 +244,6 @@ int main()
   NoduleDetectionPipeline ndp("../data/clinical/xray_metadata.csv");
   ndp.Prepare("/home/brvanove/toil/radiology-cv/data/", "img/", 0.7, 0.3);
   ndp.Train("/home/brvanove/toil/radiology-cv/data/pos.vec", "/home/brvanove/toil/radiology-cv/data/bg.txt", "/usr/local/bin/");
-  ndp.Test("/home/brvanove/toil/radiology-cv/data/haarcascade_nodule_cxr.xml", "img/", "/home/brvanove/toil/radiology-cv/data/out/");
+  ndp.Test("/home/brvanove/toil/radiology-cv/data/model/cascade.xml", "/home/brvanove/toil/radiology-cv/data/img/", "/home/brvanove/toil/radiology-cv/data/out/");
 }
 
